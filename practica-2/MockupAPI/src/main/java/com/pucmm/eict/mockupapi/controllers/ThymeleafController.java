@@ -24,7 +24,7 @@ public class ThymeleafController {
     public String index(Model model){
         model.addAttribute("titulo", "Pagina desde thymeleaf");
 
-        return "index";
+        return "auth/login";
     }
 
 //    @GetMapping("/login")
