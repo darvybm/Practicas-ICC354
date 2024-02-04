@@ -1,9 +1,12 @@
 package com.pucmm.eict.mockupapi.models;
 
+import com.pucmm.eict.mockupapi.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -12,16 +15,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class User {
 
-    enum Role {ADMINISTRADOR, INVITADO, USUARIO}
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String name;
-    private String lastName;
-    private String email;
+    private String username;
     private String password;
-    private Role role;
+    private UserRole role;
     private String tokenJWT;
 }
