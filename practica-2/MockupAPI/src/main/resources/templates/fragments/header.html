@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Header</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark py-3 mb-4 border-bottom" th:fragment="header">
+        <div class="container">
+            <a class="navbar-brand"  href="#">Mockup API</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/index}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/projects}">Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/mocks}">Mocks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" th:href="@{/users}">Usuarios</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-1">
+                    <a class="btn btn-outline-light" th:href="@{/login}">Log in</a>
+                    <a class="btn btn-info" th:href="@{/register}" >Sign up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

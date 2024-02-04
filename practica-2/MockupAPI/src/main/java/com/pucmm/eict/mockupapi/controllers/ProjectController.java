@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +24,16 @@ public class ProjectController {
 
     @GetMapping
     public String getAllProjects(Model model) {
+        Project project1 = new Project(UUID.randomUUID(), "Proyecto 1", "Prueba ");
+        Project project2 = new Project(UUID.randomUUID(), "Proyecto 2", "Prueba ");
+        Project project3 = new Project(UUID.randomUUID(), "Proyecto 3", "Prueba ");
+        projectService.createProject(project1);
+        projectService.createProject(project2);
+        projectService.createProject(project3);
+
         List<Project> projects = projectService.getAllProjects();
         model.addAttribute("projects", projects);
+
         return "project/list"; // Puedes ajustar la vista según tu estructura
     }
 
