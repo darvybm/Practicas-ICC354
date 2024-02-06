@@ -24,7 +24,7 @@
                         <form class="needs-validation" novalidate="" th:action="@{/mocks/create}" method="post" th:object="${mock}">
                             <h2 class="display-5 mt-5">Crear mock</h2>
                             <div class="row g-3 mt-5">
-                                <div class="col-sm-6 mb-1">
+                                <div class="col-sm-6 mb-3">
                                     <label for="name" class="form-label">Nombre</label>
                                     <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="" value="" required="">
                                     <div class="invalid-feedback">
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 mb-1">
+                                <div class="col-sm-6 mb-3">
                                     <label for="description" class="form-label">Descripción</label>
                                     <div class="input-group has-validation">
                                         <input th:field="*{description}" type="text" class="form-control" id="description" placeholder="Descripción de tu mock" required="">
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 mb-1">
+                                <div class="col-sm-6 mb-3">
                                     <label for="endpoint" class="form-label">Endpoint</label>
                                     <div class="input-group has-validation">
                                         <span class="input-group-text">../</span>
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 mb-1">
+                                <div class="col-sm-6 mb-3">
                                     <label for="method" class="form-label">Método</label>
                                     <select  th:field="*{method}" class="form-select" id="method" required="">
                                         <option selected value="" >Elige...</option>
@@ -70,7 +70,7 @@
                                 </div>
 
 
-                                <label for="headers" class="form-label mb-1">Headers</label>
+                                <label for="headers" class="form-label mb-3">Headers</label>
                                 <div class="row" id="headers">
                                     <div class="col-1">
                                         <button type="button" class="btn btn-outline-primary mb-3"  onclick="addHeader()">
@@ -84,7 +84,7 @@
                                 </div>
 
 
-                                <div class="col-sm-6  mb-1">
+                                <div class="col-sm-6  mb-3">
                                     <label for="responseStatus" class="form-label">Response status</label>
                                     <select  th:field="*{statusCode}" class="form-select" id="responseStatus" required="">
                                         <option value="0" selected >Elige...</option>
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 mb-1">
+                                <div class="col-12 mb-3">
                                     <div class="input-group">
                                         <label for="contentType" class="input-group-text">Content type</label>
                                         <select  th:field="*{contentType}" class="form-select" id="contentType" required="">
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 mb-1">
+                                <div class="mb-3 mb-3">
                                     <label for="responseBody" class="form-label">Response body</label>
                                     <textarea  th:field="*{body}" class="form-control" id="responseBody" rows="6"></textarea>
                                 </div>
@@ -133,10 +133,11 @@
                 var headersDiv = document.getElementById("headers");
                 var newHeaderDiv = document.createElement("div");
                 newHeaderDiv.classList.add("row");
+                newHeaderDiv.classList.add("header-row"); // Add a class to identify header rows
                 newHeaderDiv.id = "header";
 
                 var keyDiv = document.createElement("div");
-                keyDiv.classList.add("col-sm-6");
+                keyDiv.classList.add("col-sm-5");
                 keyDiv.classList.add("mb-3");
                 var keyInput = document.createElement("input");
                 keyInput.id = "key";
@@ -148,7 +149,7 @@
                 keyDiv.appendChild(keyInput);
 
                 var valueDiv = document.createElement("div");
-                valueDiv.classList.add("col-sm-6");
+                valueDiv.classList.add("col-sm-5");
                 valueDiv.classList.add("mb-3");
                 var valueInput = document.createElement("input");
                 valueInput.id = "value";
@@ -159,8 +160,22 @@
                 valueInput.setAttribute("aria-label", "value");
                 valueDiv.appendChild(valueInput);
 
+                var deleteButtonDiv = document.createElement("div");
+                deleteButtonDiv.classList.add("col-sm-2");
+                deleteButtonDiv.classList.add("mb-3");
+                var deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.classList.add("btn");
+                deleteButton.classList.add("btn-outline-danger");
+                deleteButton.textContent = "Eliminar";
+                deleteButton.onclick = function() {
+                    headersDiv.removeChild(newHeaderDiv); // Remove the current header row when delete button is clicked
+                };
+                deleteButtonDiv.appendChild(deleteButton);
+
                 newHeaderDiv.appendChild(keyDiv);
                 newHeaderDiv.appendChild(valueDiv);
+                newHeaderDiv.appendChild(deleteButtonDiv);
 
                 headersDiv.appendChild(newHeaderDiv);
             }
