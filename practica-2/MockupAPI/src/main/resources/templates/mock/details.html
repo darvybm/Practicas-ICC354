@@ -9,47 +9,36 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <!-- Responsive navbar-->
         <div th:replace="~{fragments/header.html :: header}">...</div>
+        <div id="layoutSidenav">
+            <div th:replace="~{fragments/sidebar.html :: layoutSidevar}">...</div>
 
-        <!-- Page content-->
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4 mt-5">
+                        <h3 class="display-5" th:text="*{mock.name}">Nombre</h3>
+                        <h4 class="lead" th:text="*{mock.description}">Rol</h4>
+                        <span class="h5" th:text="*{mock.endpoint}">Nombre de endpoint</span>
+                        <span class="h5" th:text="*{mock.method}">Metodo</span>
 
-        <main class="container vh-100 mt-5">
-
-            <h3 class="display-5" th:text="*{mock.name}">Nombre</h3>
-            <h4 class="lead" th:text="*{mock.description}">Rol</h4>
-            <span class="h5" th:text="*{mock.endpoint}">Nombre de endpoint</span>
-            <span class="h5" th:text="*{mock.method}">Metodo</span>
-
-
-<!--            <h4 class="h4 mt-5">Mocks</h4>-->
-<!--            <div class="card">-->
-<!--                <table class="table table-striped">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th scope="col">Name</th>-->
-<!--                        <th scope="col">Description</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr>-->
-<!--                        <td>Estudiantes</td>-->
-<!--                        <td>API de Estudiantes</td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
-<!--            </div>-->
-        </main>
-
-        <!-- Footer-->
-        <div th:replace="~{fragments/footer.html :: footer}"></div>
+<!--                        En desarrollo-->
+                    </div>
+                </main>
+                <!-- Footer-->
+                <div th:replace="~{fragments/footer.html :: footer}"></div>
+            </div>
+        </div>
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="/js/scripts.js"></script>
+        <script src="/js/datatables-simple-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

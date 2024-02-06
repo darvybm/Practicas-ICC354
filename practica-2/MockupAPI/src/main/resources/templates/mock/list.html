@@ -9,67 +9,83 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/css/styles_table.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
-    <body>
-        <!-- Responsive navbar-->
+    <body class="sb-nav-fixed">
         <div th:replace="~{fragments/header.html :: header}">...</div>
+        <div id="layoutSidenav">
+            <div th:replace="~{fragments/sidebar.html :: layoutSidevar}">...</div>
 
-        <!-- Page content-->
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="display-5 mt-5">Mocks</h1>
 
-        <main class="container vh-100 mt-5">
-            <h1 class="display-5">Mocks</h1>
+                        <a  class="btn btn-primary mt-3" th:href="@{/mocks/create}">Crear mock</a>
 
-            <a  class="btn btn-outline-primary mt-3" th:href="@{/mocks/create}">Crear mock</a>
-
-            <div class="card mt-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-table me-1"></i>
-                        Lista de mocks creados
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-table me-1"></i>
+                                    Lista de mocks creados
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Endpoint</th>
+                                        <th scope="col">Method</th>
+                                        <th scope="col">Headers</th>
+                                        <th scope="col">Exp. Date</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Endpoint</th>
+                                        <th scope="col">Method</th>
+                                        <th scope="col">Headers</th>
+                                        <th scope="col">Exp. Date</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <tr th:each="mock: ${mocks}">
+                                        <td th:text="${mock.name}">Name</td>
+                                        <td th:text="${mock.description}">Description</td>
+                                        <td th:text="${mock.endpoint}">Endpoint</td>
+                                        <td th:text="${mock.method}">Method</td>
+                                        <td th:text="${mock.headers}">Headers</td>
+                                        <td th:text="${mock.expirationDate}">Exp. Date</td>
+                                        <td>
+                                            <!--                                <a th:href="@{'/users/' + ${user.getId()}}" class="btn btn-outline-info">-->
+                                            <!--                                    Ver-->
+                                            <!--                                </a>-->
+                                            <a class="btn btn-outline-success">
+                                                Editar
+                                            </a>
+                                            <a class="btn btn-outline-danger">
+                                                Eliminar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <table id="datatablesSimple">
-                        <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Endpoint</th>
-                            <th scope="col">Method</th>
-                            <th scope="col">Headers</th>
-                            <th scope="col">Exp. Date</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Endpoint</th>
-                            <th scope="col">Method</th>
-                            <th scope="col">Headers</th>
-                            <th scope="col">Exp. Date</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        <tr th:each="mock: ${mocks}">
-                            <td>Obtener estudiantes</td>
-                            <td>Obtener lista de estudiantes</td>
-                            <td>getStudents</td>
-                            <td>GET</td>
-                            <td>{contentType...}</td>
-                            <td>4/02/25</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                </main>
+                <!-- Footer-->
+                <div th:replace="~{fragments/footer.html :: footer}"></div>
             </div>
-        </main>
-
-        <!-- Footer-->
-        <div th:replace="~{fragments/footer.html :: footer}"></div>
+        </div>
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
