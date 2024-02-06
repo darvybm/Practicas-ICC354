@@ -29,4 +29,9 @@ public class MockService {
     public Mock createMock(Mock mock) {
         return mockRepository.save(mock);
     }
+
+
+    public Mock getMockByHash(String hash) {
+        return mockRepository.findByHash(hash);
+    }
 }

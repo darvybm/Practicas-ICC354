@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface MockRepository extends JpaRepository<Mock, Integer> {
     Mock findById(UUID id);
+
+    Mock findByHash(String hash);
 }

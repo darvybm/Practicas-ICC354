@@ -29,6 +29,7 @@ public class Mock {
     private int statusCode;
     private String contentType;
     private String body;
+    private String hash;
     private LocalDateTime expirationDate;
     private int delay;
     private boolean validateJWT;
