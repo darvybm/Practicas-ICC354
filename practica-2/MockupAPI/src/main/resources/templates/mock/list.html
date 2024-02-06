@@ -58,12 +58,12 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="mock: ${mocks}">
-                                        <td>Obtener estudiantes</td>
-                                        <td>Obtener lista de estudiantes</td>
-                                        <td>getStudents</td>
-                                        <td>GET</td>
-                                        <td>{contentType...}</td>
-                                        <td>4/02/25</td>
+                                        <td th:text="${mock.name}">Name</td>
+                                        <td th:text="${mock.description}">Description</td>
+                                        <td th:text="${mock.endpoint}">Endpoint</td>
+                                        <td th:text="${mock.method}">Method</td>
+                                        <td th:text="${mock.headers}">Headers</td>
+                                        <td th:text="${mock.expirationDate}">Exp. Date</td>
                                         <td>
                                             <!--                                <a th:href="@{'/users/' + ${user.getId()}}" class="btn btn-outline-info">-->
                                             <!--                                    Ver-->
