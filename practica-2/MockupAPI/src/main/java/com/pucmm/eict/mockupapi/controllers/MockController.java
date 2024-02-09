@@ -2,6 +2,8 @@ package com.pucmm.eict.mockupapi.controllers;
 
 import com.pucmm.eict.mockupapi.models.Mock;
 import com.pucmm.eict.mockupapi.services.MockService;
+import com.pucmm.eict.mockupapi.services.ProjectService;
+import com.pucmm.eict.mockupapi.utils.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +17,12 @@ import java.util.UUID;
 public class MockController {
 
     private final MockService mockService;
+    private final ProjectService projectService;
 
     @Autowired
-    public MockController(MockService mockService) {
+    public MockController(MockService mockService, ProjectService projectService) {
         this.mockService = mockService;
+        this.projectService = projectService;
     }
 
     @GetMapping
@@ -42,7 +46,9 @@ public class MockController {
     }
 
     @PostMapping("/create")
-    public String createMock(@ModelAttribute Mock mock) {
+    public String createMock(@ModelAttribute Mock mock, @RequestParam("projectId") UUID projectId) {
+        mock.setHash(HashGenerator.generarHash());
+        mock.setProject(projectService.getProjectById(projectId));
         mockService.createMock(mock);
         return "redirect:/mocks";
     }

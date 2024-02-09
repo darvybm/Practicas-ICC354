@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 
 import java.time.LocalDate;
@@ -24,11 +25,17 @@ public class Mock {
     private String name;
     private String description;
     private String endpoint;
-    private HttpMethod method;
+    private String method;
+
+    @Column(length = 60000)
     private String headers;
+
     private int statusCode;
     private String contentType;
+
+    @Column(length = 60000)
     private String body;
+
     private String hash;
     private LocalDateTime expirationDate;
     private int delay;
