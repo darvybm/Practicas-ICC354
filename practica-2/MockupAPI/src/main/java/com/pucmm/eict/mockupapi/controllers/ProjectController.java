@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +34,7 @@ public class ProjectController {
 
         List<Project> projects = projectService.getAllProjects();
         model.addAttribute("projects", projects);
+        model.addAttribute("colors", Arrays.asList("#0C4E3A", "#12946D", "#10BE89", "#10BE89", "#12946D", "#0C4E3A"));
 
         return "project/list"; // Puedes ajustar la vista según tu estructura
     }
