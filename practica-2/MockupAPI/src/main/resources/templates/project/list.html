@@ -28,16 +28,21 @@
                         <a  class="btn btn-primary mt-3" th:href="@{/projects/create}">Crear proyecto</a>
 
                         <div class="row mt-3">
-                            <div th:each="proyecto : ${projects}" class="col-sm-6 mb-3 mb-sm-0">
+                            <div th:each="proyecto, iterStat : ${projects}" class="col-sm-4 mb-3 mb-sm-0">
                                 <div class="card mb-3">
+                                    <div class="card-indicator d-flex flex-row-reverse" th:style="'background-color: ' + ${colors[iterStat.index % colors.size()]}">
+                                        <span class=" badge badge-pill badge-primary py-2">[[${iterStat.index + 1}]]</span>
+                                    </div>
                                     <div class="card-body">
                                         <h5 class="card-title" th:text="${proyecto.getName()}">Título del proyecto</h5>
                                         <p class="card-text" th:text="${proyecto.getDescription()}">Descripción del proyecto</p>
-                                        <a  class="btn btn-outline-info" th:href="@{'/projects/' + ${proyecto.getId()}}">Ver</a>
+                                        <a class="btn btn-outline-primary" th:href="@{'/projects/' + ${proyecto.getId()}}">Ver</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </main>
                 <!-- Footer-->

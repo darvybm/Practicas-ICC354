@@ -84,6 +84,8 @@
                                 </div>
 
 
+
+
                                 <div class="col-sm-6  mb-3">
                                     <label for="responseStatus" class="form-label">Response status</label>
                                     <select  th:field="*{statusCode}" class="form-select" id="responseStatus" required="">
@@ -114,8 +116,10 @@
                                     <textarea  th:field="*{body}" class="form-control" id="responseBody" rows="6"></textarea>
                                 </div>
 
+                                <input type="hidden" name="headerJson" id="headersJson" th:field="*{headers}">
+
                             </div>
-                            <button class="w-100 btn btn-primary btn-lg mt-5" type="submit">Crear</button>
+                            <button class="w-100 btn btn-primary btn-lg mt-5" type="submit" onclick="prepareHeaders()">Crear</button>
                         </form>
                     </div>
                 </main>
@@ -180,6 +184,37 @@
                 headersDiv.appendChild(newHeaderDiv);
             }
         </script>
+
+        <script th:inline="javascript">
+            function prepareHeaders() {
+                // Obtener los datos de los headers del formulario
+                var headerRows = document.getElementsByClassName("header-row");
+                var headers = {};
+
+                // Iterar sobre cada fila de header
+                for (var i = 0; i < headerRows.length; i++) {
+                    var keyInput = headerRows[i].querySelector('[placeholder="Key"]');
+                    var valueInput = headerRows[i].querySelector('[placeholder="Value"]');
+
+                    // Obtener el valor de la clave y el valor
+                    var key = keyInput.value.trim();
+                    var value = valueInput.value.trim();
+
+                    // Agregar la clave y el valor al objeto de headers si no están vacíos
+                    if (key !== "" && value !== "") {
+                        headers[key] = value;
+                    }
+                }
+
+
+                // Convertir el objeto de headers a JSON
+                var headersJson = JSON.stringify(headers);
+
+                // Establecer el JSON de los headers en el campo oculto
+                document.getElementById("headersJson").value = headersJson;
+            }
+        </script>
+
 
     </body>
 </html>
