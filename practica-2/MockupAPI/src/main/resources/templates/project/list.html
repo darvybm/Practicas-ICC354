@@ -62,7 +62,7 @@
                         <a  class="btn btn-primary mt-3" th:href="@{/projects/create}">Crear proyecto</a>
 
                         <div class="row mt-5">
-                            <div th:each="proyecto, iterStat : ${projects}" class="col-sm-4 mb-3 mb-sm-0">
+                            <div th:each="proyecto, iterStat : ${projects}" class="col-md-4 col-sm-6 mb-2 mb-sm-0">
                                 <div class="card mb-3 shadow hover-card">
                                     <div class="card-indicator d-flex flex-row-reverse" th:style="'background-color: ' + ${colors[iterStat.index % colors.size()]}">
                                         <span class=" badge badge-pill badge-primary py-2">[[${iterStat.index + 1}]]   </span>
