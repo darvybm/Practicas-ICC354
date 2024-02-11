@@ -22,10 +22,10 @@
                 <main>
                     <div class="container-fluid px-4">
                         <form class="needs-validation" novalidate="" th:action="@{/mocks/create}" method="post" th:object="${mock}">
-                            <h2 class="display-5 mt-5">Crear mock</h2>
+                            <h2 class="display-5 mt-5" th:text="#{title}">Crear mock</h2>
                             <div class="row g-3 mt-5">
                                 <div class="col-sm-6 mb-3">
-                                    <label for="name" class="form-label">Nombre</label>
+                                    <label for="name" class="form-label" th:text="#{name}">Nombre</label>
                                     <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="" value="" required="">
                                     <div class="invalid-feedback">
                                         Valid name is required.
@@ -33,9 +33,9 @@
                                 </div>
 
                                 <div class="col-sm-6 mb-3">
-                                    <label for="description" class="form-label">Descripción</label>
+                                    <label for="description" class="form-label" th:text="#{description}">Descripción</label>
                                     <div class="input-group has-validation">
-                                        <input th:field="*{description}" type="text" class="form-control" id="description" placeholder="Descripción de tu mock" required="">
+                                        <input th:field="*{description}" type="text" class="form-control" id="description" th:placeholder="#{description_placeholder}" required="">
                                         <div class="invalid-feedback">
                                             Your description is required.
                                         </div>
@@ -54,9 +54,9 @@
                                 </div>
 
                                 <div class="col-sm-6 mb-3">
-                                    <label for="method" class="form-label">Método</label>
+                                    <label for="method" class="form-label" th:text="#{method}">Método</label>
                                     <select  th:field="*{method}" class="form-select" id="method" required="">
-                                        <option selected value="" >Elige...</option>
+                                        <option selected value="" th:text="#{choose}">Elige...</option>
                                         <option value="get" >GET</option>
                                         <option value="post">POST</option>
                                         <option value="put">PUT</option>
@@ -70,7 +70,7 @@
                                 </div>
 
 
-                                <label for="headers" class="form-label mb-3">Headers</label>
+                                <label for="headers" class="form-label mb-3" th:text="#{headers}">Headers</label>
                                 <div class="row" id="headers">
                                     <div class="col-1">
                                         <button type="button" class="btn btn-outline-primary mb-3"  onclick="addHeader()">
@@ -78,7 +78,7 @@
                                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path>
                                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
                                             </svg>
-                                            Agregar
+                                            <span th:text="#{add}">Agregar</span>
                                         </button>
                                     </div>
                                 </div>
@@ -87,9 +87,9 @@
 
 
                                 <div class="col-sm-6  mb-3">
-                                    <label for="responseStatus" class="form-label">Response status</label>
+                                    <label for="responseStatus" class="form-label" th:text="#{response_status}">Response status</label>
                                     <select  th:field="*{statusCode}" class="form-select" id="responseStatus" required="">
-                                        <option value="0" selected >Elige...</option>
+                                        <option value="0" selected th:text="#{choose}">Elige...</option>
                                         <option value="200">200</option>
                                     </select>
                                     <div class="invalid-feedback">
@@ -99,7 +99,7 @@
 
                                 <div class="col-12 mb-3">
                                     <div class="input-group">
-                                        <label for="contentType" class="input-group-text">Content type</label>
+                                        <label for="contentType" class="input-group-text" th:text="#{content_type}">Content Type</label>
                                         <select  th:field="*{contentType}" class="form-select" id="contentType" required="">
                                             <option value="application/json">application/json</option>
                                             <option value="application/xml">application/xml</option>
@@ -112,14 +112,14 @@
                                 </div>
 
                                 <div class="mb-3 mb-3">
-                                    <label for="responseBody" class="form-label">Response body</label>
+                                    <label for="responseBody" class="form-label" th:text="#{response_body}">Response body</label>
                                     <textarea  th:field="*{body}" class="form-control" id="responseBody" rows="6"></textarea>
                                 </div>
 
                                 <input type="hidden" name="headerJson" id="headersJson" th:field="*{headers}">
 
                             </div>
-                            <button class="w-100 btn btn-primary btn-lg mt-5" type="submit" onclick="prepareHeaders()">Crear</button>
+                            <button class="w-100 btn btn-primary btn-lg mt-5" type="submit" onclick="prepareHeaders()" th:text="#{create}">Crear</button>
                         </form>
                     </div>
                 </main>

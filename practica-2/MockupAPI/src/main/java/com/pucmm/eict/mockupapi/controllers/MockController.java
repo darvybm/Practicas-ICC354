@@ -5,11 +5,13 @@ import com.pucmm.eict.mockupapi.services.MockService;
 import com.pucmm.eict.mockupapi.services.ProjectService;
 import com.pucmm.eict.mockupapi.utils.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Controller
@@ -18,6 +20,9 @@ public class MockController {
 
     private final MockService mockService;
     private final ProjectService projectService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     public MockController(MockService mockService, ProjectService projectService) {
@@ -40,8 +45,9 @@ public class MockController {
     }
 
     @GetMapping("/create")
-    public String showCreateForm(Model model) {
+    public String showCreateForm(Model model, Locale locale) {
         model.addAttribute("mock", new Mock());
+        model.addAttribute("title", messageSource.getMessage("title", null, locale));
         return "mock/create";
     }
 
