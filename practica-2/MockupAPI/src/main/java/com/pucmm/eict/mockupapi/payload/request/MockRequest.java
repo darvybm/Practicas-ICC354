@@ -1,35 +1,45 @@
 package com.pucmm.eict.mockupapi.payload.request;
 
-import com.pucmm.eict.mockupapi.models.Project;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class MockRequest {
 
-    private UUID id;
+    @NotBlank(message = "El nombre del mock no puede estar en blanco")
     private String name;
+
+    @NotBlank(message = "La descripción del mock no puede estar en blanco")
     private String description;
+
+    @NotBlank(message = "La ruta del endpoint no puede estar en blanco")
     private String endpoint;
+
+    @NotBlank(message = "El método del mock no puede estar en blanco")
     private String method;
+
+    @Size(max = 60000, message = "La longitud de los headers no puede exceder los 60000 caracteres")
     private String headers;
+
+    @NotNull(message = "El código de estado no puede estar vacío")
     private int statusCode;
+
+    @NotBlank(message = "El tipo de contenido no puede estar en blanco")
     private String contentType;
+
+    @Size(max = 60000, message = "La longitud del cuerpo (body) no puede exceder los 60000 caracteres")
     private String body;
-    private String hash;
-    private LocalDateTime expirationDate;
-    private int delay;
+
+    private UUID projectId;
+
+    private String expirationDate = "year";
+
+    @Min(value = 0, message = "El tiempo de demora debe ser igual o mayor que 0")
+    private int delay = 0;
+
     private boolean validateJWT;
-    private String userId;
-    private String projectId;
 }

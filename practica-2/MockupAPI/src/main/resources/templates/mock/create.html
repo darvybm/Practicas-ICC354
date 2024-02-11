@@ -12,6 +12,8 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- SweetAlert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="sb-nav-fixed">
         <div th:replace="~{fragments/header.html :: header}">...</div>
@@ -21,41 +23,32 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <form class="needs-validation" novalidate="" th:action="@{/mocks/create}" method="post" th:object="${mock}">
+                        <form class="needs-validation" id="mockForm">
                             <h2 class="display-5 mt-5" th:text="#{title}">Crear mock</h2>
                             <div class="row g-3 mt-5">
                                 <div class="col-sm-6 mb-3">
                                     <label for="name" class="form-label" th:text="#{name}">Nombre</label>
-                                    <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="" value="" required="">
-                                    <div class="invalid-feedback">
-                                        Valid name is required.
-                                    </div>
+                                    <input type="text" class="form-control" id="name" placeholder="" value="" required="">
                                 </div>
 
                                 <div class="col-sm-6 mb-3">
                                     <label for="description" class="form-label" th:text="#{description}">Descripción</label>
-                                    <div class="input-group has-validation">
-                                        <input th:field="*{description}" type="text" class="form-control" id="description" th:placeholder="#{description_placeholder}" required="">
-                                        <div class="invalid-feedback">
-                                            Your description is required.
-                                        </div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="description" th:placeholder="#{description_placeholder}" required="">
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6 mb-3">
                                     <label for="endpoint" class="form-label">Endpoint</label>
-                                    <div class="input-group has-validation">
-                                        <span class="input-group-text">../</span>
-                                        <input th:field="*{endpoint}" type="text" class="form-control" id="endpoint" placeholder="" required="">
-                                        <div class="invalid-feedback">
-                                            Your endpoint is required.
-                                        </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">{hash}/api/</span>
+                                        <input type="text" class="form-control" id="endpoint" placeholder="" required="">
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6 mb-3">
                                     <label for="method" class="form-label" th:text="#{method}">Método</label>
-                                    <select  th:field="*{method}" class="form-select" id="method" required="">
+                                    <select class="form-select" id="method" required="">
                                         <option selected value="" th:text="#{choose}">Elige...</option>
                                         <option value="get" >GET</option>
                                         <option value="post">POST</option>
@@ -64,11 +57,7 @@
                                         <option value="patch">PATCH</option>
                                         <option value="options">OPTIONS</option>
                                     </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid role.
-                                    </div>
                                 </div>
-
 
                                 <label for="headers" class="form-label mb-3" th:text="#{headers}">Headers</label>
                                 <div class="row" id="headers">
@@ -83,24 +72,18 @@
                                     </div>
                                 </div>
 
-
-
-
                                 <div class="col-sm-6  mb-3">
                                     <label for="responseStatus" class="form-label" th:text="#{response_status}">Response status</label>
-                                    <select  th:field="*{statusCode}" class="form-select" id="responseStatus" required="">
+                                    <select class="form-select" id="responseStatus" required="">
                                         <option value="0" selected th:text="#{choose}">Elige...</option>
                                         <option value="200">200</option>
                                     </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid response status.
-                                    </div>
                                 </div>
 
                                 <div class="col-12 mb-3">
                                     <div class="input-group">
                                         <label for="contentType" class="input-group-text" th:text="#{content_type}">Content Type</label>
-                                        <select  th:field="*{contentType}" class="form-select" id="contentType" required="">
+                                        <select class="form-select" id="contentType" required="">
                                             <option value="application/json">application/json</option>
                                             <option value="application/xml">application/xml</option>
                                             <option value="text/xml">text/xml</option>
@@ -113,13 +96,33 @@
 
                                 <div class="mb-3 mb-3">
                                     <label for="responseBody" class="form-label" th:text="#{response_body}">Response body</label>
-                                    <textarea  th:field="*{body}" class="form-control" id="responseBody" rows="6"></textarea>
+                                    <textarea class="form-control" id="responseBody" rows="6"></textarea>
                                 </div>
 
-                                <input type="hidden" name="headerJson" id="headersJson" th:field="*{headers}">
+                                <div class="col-sm-6 mb-3">
+                                    <label for="expirationTime" class="form-label">Tiempo de expiración</label>
+                                    <select class="form-select" id="expirationTime" required="">
+                                        <option selected value="year">1 año</option>
+                                        <option value="month">1 mes</option>
+                                        <option value="week">1 semana</option>
+                                        <option value="day">1 día</option>
+                                        <option value="hour">1 hora</option>
+                                    </select>
+                                </div>
 
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label" for="delayResponseTime">Demora de respuesta (segundos)</label>
+                                    <input type="number" class="form-control" id="delayResponseTime" placeholder="Tiempo de demora">
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="validateJWTCheck">
+                                        <label class="form-check-label" for="validateJWTCheck">Validar vía JWT</label>
+                                    </div>
+                                </div>
                             </div>
-                            <button class="w-100 btn btn-primary btn-lg mt-5" type="submit" onclick="prepareHeaders()" th:text="#{create}">Crear</button>
+                            <button class="w-100 btn btn-primary btn-lg mt-5" id="mockFormButtom" th:text="#{create}">Crear</button>
                         </form>
                     </div>
                 </main>
@@ -128,10 +131,13 @@
             </div>
         </div>
 
+        <!--jquery-->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="/js/scripts.js"></script>
+
         <script th:inline="javascript">
             function addHeader() {
                 var headersDiv = document.getElementById("headers");
@@ -183,15 +189,11 @@
 
                 headersDiv.appendChild(newHeaderDiv);
             }
-        </script>
-
-        <script th:inline="javascript">
             function prepareHeaders() {
                 // Obtener los datos de los headers del formulario
                 var headerRows = document.getElementsByClassName("header-row");
                 var headers = {};
 
-                // Iterar sobre cada fila de header
                 for (var i = 0; i < headerRows.length; i++) {
                     var keyInput = headerRows[i].querySelector('[placeholder="Key"]');
                     var valueInput = headerRows[i].querySelector('[placeholder="Value"]');
@@ -205,16 +207,59 @@
                         headers[key] = value;
                     }
                 }
-
-
-                // Convertir el objeto de headers a JSON
-                var headersJson = JSON.stringify(headers);
-
-                // Establecer el JSON de los headers en el campo oculto
-                document.getElementById("headersJson").value = headersJson;
+                return  JSON.stringify(headers);
             }
+
         </script>
 
+        <script th:inline="javascript">
+            $(document).ready(function() {
+                $('#mockFormButtom').click(function(event) {
+                    event.preventDefault();
+
+                    var mockData = {
+                        name: $('#name').val(),
+                        description: $('#description').val(),
+                        endpoint: $('#endpoint').val(),
+                        method: $('#method').val(),
+                        statusCode: $('#responseStatus').val(),
+                        contentType: $('#contentType').val(),
+                        body: $('#responseBody').val(),
+                        headers: prepareHeaders(), // Utilizar la función que prepara los encabezados
+                    };
+
+                    console.log(mockData);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/mocks/create',
+                        contentType: 'application/json',
+                        data: JSON.stringify(mockData),
+                        success: function (response) {
+                            console.log("ENTRO A SUCCESS")
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Mock Creado exitosamente',
+                                showConfirmButton: true  // Eliminar el temporizador
+                            }).then((result) => {
+                                // Redirigir a la vista de mocks al hacer clic en "OK"
+                                if (result.isConfirmed) {
+                                    window.location.href = '/mocks';
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error al crear el mock',
+                                text: error.responseText,
+                                showConfirmButton: true  // Eliminar el temporizador
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
 
     </body>
 </html>

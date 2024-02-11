@@ -1,8 +1,10 @@
 package com.pucmm.eict.mockupapi.controllers;
 
 import com.pucmm.eict.mockupapi.models.Project;
+import com.pucmm.eict.mockupapi.models.User;
 import com.pucmm.eict.mockupapi.payload.request.ProjectRequest;
 import com.pucmm.eict.mockupapi.services.ProjectService;
+import com.pucmm.eict.mockupapi.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +21,12 @@ import java.util.*;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final UserService userService;
 
     @Autowired
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -50,7 +54,6 @@ public class ProjectController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createProject(@Valid @RequestBody ProjectRequest projectRequest, BindingResult bindingResult) {
-        //System.out.println("PROBLEMS: " + Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
@@ -67,6 +70,9 @@ public class ProjectController {
         Project project = new Project();
         project.setName(projectRequest.getName());
         project.setDescription(projectRequest.getDescription());
+
+        //User falso
+        User user = userService.getAllUsers().getFirst();
         return project;
     }
 }
