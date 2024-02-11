@@ -96,7 +96,6 @@ public class MockController {
         mock.setStatusCode(mockRequest.getStatusCode());
         mock.setContentType(mockRequest.getContentType());
         mock.setBody(mockRequest.getBody());
-        mock.setProject(projectService.getProjectById(mockRequest.getProjectId()));
         mock.setHash(HashGenerator.generarHash());
 
         //Calculando la fecha de expiración
@@ -121,13 +120,10 @@ public class MockController {
         // Asignar el usuario al mock
         mock.setUser(fakeUser);
 
-        // Crear un proyecto falso
-        Project fakeProject = new Project();
-        fakeProject.setName("fakeProject");
-        fakeProject.setDescription("Fake project description");
         // Asignar el proyecto al mock
-        projectService.createProject(fakeProject);
-        mock.setProject(fakeProject);
+        mock.setProject(projectService.getProjectById(mockRequest.getProjectId()));
+
+
         return mock;
     }
 
