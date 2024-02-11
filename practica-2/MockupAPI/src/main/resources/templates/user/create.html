@@ -20,9 +20,11 @@
 
             <div id="layoutSidenav_content">
                 <main>
+                    <div id="banner">
+                        <h1 class="display-5">Crear Usuario</h1>
+                    </div>
                     <div class="container-fluid px-4">
                         <form class="needs-validation" novalidate="" th:action="@{/users/create}" method="post" th:object="${user}">
-                            <h2 class="display-5 mt-5">Crear usuario</h2>
                             <div class="row g-3 mt-5">
                                 <div class="col-sm-6">
                                     <label for="name" class="form-label">Nombre</label>

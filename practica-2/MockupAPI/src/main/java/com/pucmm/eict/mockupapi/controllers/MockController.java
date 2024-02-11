@@ -5,6 +5,7 @@ import com.pucmm.eict.mockupapi.services.MockService;
 import com.pucmm.eict.mockupapi.services.ProjectService;
 import com.pucmm.eict.mockupapi.utils.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,4 +59,5 @@ public class MockController {
         mockService.createMock(mock);
         return "redirect:/mocks";
     }
+
 }
