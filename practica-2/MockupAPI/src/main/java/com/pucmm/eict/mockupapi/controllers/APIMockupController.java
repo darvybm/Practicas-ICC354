@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
+@RestController
 public class APIMockupController {
 
     private final MockService mockService;

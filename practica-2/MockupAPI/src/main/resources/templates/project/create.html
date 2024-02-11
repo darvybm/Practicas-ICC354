@@ -1,57 +1,101 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Mockup API - Practica 2</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="sb-nav-fixed">
-        <div th:replace="~{fragments/header.html :: header}">...</div>
-        <div id="layoutSidenav">
-            <div th:replace="~{fragments/sidebar.html :: layoutSidevar}">...</div>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Mockup API - Practica 2</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="sb-nav-fixed">
+<div th:replace="~{fragments/header.html :: header}">...</div>
+<div id="layoutSidenav">
+    <div th:replace="~{fragments/sidebar.html :: layoutSidevar}">...</div>
 
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <form class="needs-validation" novalidate="" th:action="@{/projects/create}" method="post" th:object="${project}">
-                            <h2 class="display-5 mt-5">Crear proyecto</h2>
-                            <div class="col-sm mt-5">
-                                <label for="name" class="form-label">Nombre</label>
-                                <input th:field="*{name}" type="text" class="form-control" id="name" placeholder=""  required="">
-                                <div class="invalid-feedback">
-                                    Valid name is required.
-                                </div>
-                            </div>
-
-                            <div class="col-sm mt-3">
-                                <label for="description" class="form-label">Descripción</label>
-                                <input th:field="*{description}" type="text" class="form-control" id="description" placeholder="Descripción de tu proyecto" required="">
-                                <div class="invalid-feedback">
-                                    Valid description is required.
-                                </div>
-                            </div>
-
-
-                            <button class="w-100 btn btn-primary btn-lg mt-5" type="submit">Crear</button>
-                        </form>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <form class="needs-validation" onsubmit="createProject()" id="projectForm">
+                    <h2 class="display-5 mt-5">Crear proyecto</h2>
+                    <div class="col-sm mt-5">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="name" placeholder="" required="">
+                        <div class="invalid-feedback">
+                            Valid name is required.
+                        </div>
                     </div>
-                </main>
-                <!-- Footer-->
-                <div th:replace="~{fragments/footer.html :: footer}"></div>
-            </div>
-        </div>
 
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="/js/scripts.js"></script>
-    </body>
+                    <div class="col-sm mt-3">
+                        <label for="description" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="description"
+                               placeholder="Descripción de tu proyecto" required="">
+                        <div class="invalid-feedback">
+                            Valid description is required.
+                        </div>
+                    </div>
+
+                    <button class="w-100 btn btn-primary btn-lg mt-5" type="button" onclick="createProject()">Crear
+                    </button>
+                </form>
+            </div>
+        </main>
+        <!-- Footer-->
+        <div th:replace="~{fragments/footer.html :: footer}"></div>
+    </div>
+</div>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!--jquery-->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+
+<script th:inline="javascript">
+    function createProject() {
+        console.log("Creando proyecto...");
+
+        var projectData = {
+            name: $('#name').val(),
+            description: $('#description').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/projects/create',
+            contentType: 'application/json',
+            data: JSON.stringify(projectData),
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Proyecto creado exitosamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            },
+            error: function (xhr) {
+                // Muestra el mensaje de error específico proporcionado por el servidor
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al crear el proyecto',
+                    text: xhr.responseText,  // Usa la respuesta del servidor como texto del mensaje
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        });
+    }
+</script>
+
+</body>
 </html>
