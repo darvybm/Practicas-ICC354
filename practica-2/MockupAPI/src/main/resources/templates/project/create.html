@@ -7,7 +7,7 @@
     <meta name="author" content="" />
     <title>Mockup API - Practica 2</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="/css/styles.css" rel="stylesheet" />
@@ -22,9 +22,11 @@
 
     <div id="layoutSidenav_content">
         <main>
+            <div id="banner">
+                <h1 class="display-5">Crear proyecto</h1>
+            </div>
             <div class="container-fluid px-4">
                 <form class="needs-validation" onsubmit="createProject()" id="projectForm">
-                    <h2 class="display-5 mt-5">Crear proyecto</h2>
                     <div class="col-sm mt-5">
                         <label for="name" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="name" placeholder="" required="">
