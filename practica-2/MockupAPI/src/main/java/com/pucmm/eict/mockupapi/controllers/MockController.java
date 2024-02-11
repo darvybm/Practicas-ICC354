@@ -60,6 +60,7 @@ public class MockController {
     @GetMapping("/create")
     public String showCreateForm(Model model, Locale locale) {
         model.addAttribute("title", messageSource.getMessage("title", null, locale));
+        model.addAttribute("projects", projectService.getAllProjects());
         return "mock/create";
     }
 
@@ -95,6 +96,7 @@ public class MockController {
         mock.setStatusCode(mockRequest.getStatusCode());
         mock.setContentType(mockRequest.getContentType());
         mock.setBody(mockRequest.getBody());
+        mock.setProject(projectService.getProjectById(mockRequest.getProjectId()));
         mock.setHash(HashGenerator.generarHash());
 
         //Calculando la fecha de expiración
