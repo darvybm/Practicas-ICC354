@@ -38,9 +38,9 @@
 
                                 <div class="col-12 mb-3" th:unless="${#lists.isEmpty(projects)}">
                                     <label for="project" class="form-label" th:text="#{project}">Proyecto</label>
-                                    <select class="form-select" id="project" required="" th:each="project: ${projects}">
+                                    <select class="form-select" id="project" required="" >
                                         <option selected value="" th:text="#{choose}">Elige un proyecto...</option>
-                                        <option th:value="${project.id}" th:text="${project.name}">Nombre de proyecto</option>
+                                        <option th:each="project: ${projects}" th:value="${project.id}" th:text="${project.name}">Nombre de proyecto</option>
                                     </select>
                                 </div>
 

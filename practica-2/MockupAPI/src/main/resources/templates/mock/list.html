@@ -37,38 +37,44 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Description</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Proyecto</th>
+                                        <th scope="col">Descripción</th>
                                         <th scope="col">Endpoint</th>
-                                        <th scope="col">Method</th>
-                                        <th scope="col">Headers</th>
+                                        <th scope="col">Método</th>
+                                        <th scope="col">Código de Estado</th>
                                         <th scope="col">Exp. Date</th>
+                                        <th scope="col">Retraso (segundos)</th>
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Description</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Proyecto</th>
+                                        <th scope="col">Descripción</th>
                                         <th scope="col">Endpoint</th>
-                                        <th scope="col">Method</th>
-                                        <th scope="col">Headers</th>
+                                        <th scope="col">Método</th>
+                                        <th scope="col">Código de Estado</th>
                                         <th scope="col">Exp. Date</th>
+                                        <th scope="col">Retraso (segundos)</th>
                                         <th>Acciones</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="mock: ${mocks}">
-                                        <td th:text="${mock.name}">Name</td>
-                                        <td th:text="${mock.description}">Description</td>
+                                        <td th:text="${mock.name}">Nombre</td>
+                                        <td th:text="${mock.project.name}"></td>
+                                        <td th:text="${mock.description}">Descripción</td>
                                         <td th:text="${mock.endpoint}">Endpoint</td>
-                                        <td th:text="${mock.method}">Method</td>
-                                        <td th:text="${mock.headers}">Headers</td>
+                                        <td th:text="${mock.method}">Método</td>
+                                        <td th:text="${mock.statusCode}">Código de Estado</td>
                                         <td th:text="${mock.expirationDate}">Exp. Date</td>
+                                        <td th:text="${mock.delay}">Retraso (segundos)</td>
                                         <td>
-                                            <!--                                <a th:href="@{'/users/' + ${user.getId()}}" class="btn btn-outline-info">-->
-                                            <!--                                    Ver-->
-                                            <!--                                </a>-->
+                                            <a class="btn btn-outline-info">
+                                                Ver
+                                            </a>
                                             <a class="btn btn-outline-success">
                                                 Editar
                                             </a>
