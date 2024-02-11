@@ -19,6 +19,24 @@
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i> </button>
         <!-- Login-->
         <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+<!--            &lt;!&ndash; Si el usuario está logeado, se muestra el dropdown de usuario &ndash;&gt;-->
+<!--            <div th:if="${#authorization.expression('isAuthenticated()')}">-->
+<!--                <div class="dropdown">-->
+<!--                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                        <span th:text="${#authentication.principal.username}"></span>-->
+<!--                    </button>-->
+<!--                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">-->
+<!--                        &lt;!&ndash; Usuario y Rol del usuario &ndash;&gt;-->
+<!--                        <li><span class="lead" th:text="${#authentication.principal.username}"></span></li>-->
+<!--                        <li><em th:text="${#authentication.principal.authorities[0].authority}"></em></li>-->
+<!--                        &lt;!&ndash; Opciones del usuario &ndash;&gt;-->
+<!--                        <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Si el usuario no está logeado, se mostrara el botón de login &ndash;&gt;-->
+<!--            <a class="btn btn-outline-light" th:unless="${#authorization.expression('isAuthenticated()')}" th:href="@{/login}" th:text="#{login}">Log in</a>-->
+
             <a class="btn btn-outline-light" th:href="@{/login}" th:text="#{login}">Log in</a>
         </div>
     </nav>
