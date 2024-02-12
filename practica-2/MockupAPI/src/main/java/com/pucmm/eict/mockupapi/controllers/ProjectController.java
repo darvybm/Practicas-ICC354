@@ -59,6 +59,14 @@ public class ProjectController {
         return "project/create";
     }
 
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable UUID id, Model model) {
+        Project project = projectService.getProjectById(id);
+        System.out.println(project);
+        model.addAttribute("project", project);
+        return "project/create";
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createProject(@Valid @RequestBody ProjectRequest projectRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -70,6 +78,26 @@ public class ProjectController {
             return ResponseEntity.ok("Proyecto creado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el proyecto");
+        }
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> editProject(@PathVariable UUID id, @Valid @RequestBody ProjectRequest projectRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+        try {
+            Project project = projectService.getProjectById(id);
+            if (project == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El proyecto no existe");
+            }
+            project.setName(projectRequest.getName());
+            project.setDescription(projectRequest.getDescription());
+            projectService.updateProject(project);
+
+            return ResponseEntity.ok("Proyecto editado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al editar el proyecto");
         }
     }
 

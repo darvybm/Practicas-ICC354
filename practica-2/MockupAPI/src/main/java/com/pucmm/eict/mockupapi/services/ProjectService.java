@@ -33,4 +33,8 @@ public class ProjectService {
     public Project createProject(Project project) {
         return projectRepository.save(project);
     }
+
+    public Project updateProject(Project project) {
+        return projectRepository.save(project);
+    }
 }

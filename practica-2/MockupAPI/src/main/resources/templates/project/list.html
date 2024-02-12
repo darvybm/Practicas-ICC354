@@ -38,7 +38,7 @@
                                         <h5 class="card-title" th:text="${proyecto.getName()}">Título del proyecto</h5>
                                         <p class="card-text" th:text="${proyecto.getDescription()}">Descripción del proyecto</p>
                                         <a class="btn btn-outline-info" th:href="@{'/projects/' + ${proyecto.getId()}}">Ver</a>
-                                        <a class="btn btn-outline-success">
+                                        <a class="btn btn-outline-success" th:href="@{'/projects/edit/' + ${proyecto.getId()}}">
                                             Editar
                                         </a>
                                         <a class="btn btn-outline-danger">

@@ -23,13 +23,15 @@
     <div id="layoutSidenav_content">
         <main>
             <div id="banner">
-                <h1 class="display-5">Crear Proyecto</h1>
+                <h1 th:text="${project.name != null ? 'Editar Proyecto' : 'Crear Proyecto'}" class="display-5">Crear Proyecto</h1>
             </div>
             <div class="container-fluid px-4 gap-3">
-                <form class="needs-validation" onsubmit="createProject()" id="projectForm">
+                <form id="projectForm">
+                    <input type="hidden" id="projectID" th:value="${project.id}" >
+
                     <div class="col-sm mt-3">
                         <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="name" placeholder="" required="">
+                        <input type="text" class="form-control" id="name" placeholder="" required="" th:value="${project.name != null ? project.name : ''}" >
                         <div class="invalid-feedback">
                             Valid name is required.
                         </div>
@@ -38,13 +40,24 @@
                     <div class="col-sm mt-3">
                         <label for="description" class="form-label">Descripción</label>
                         <input type="text" class="form-control" id="description"
-                               placeholder="Descripción de tu proyecto" required="">
+                               placeholder="Descripción de tu proyecto" required="" th:value="${project.name != null ? project.description : ''}">
                         <div class="invalid-feedback">
                             Valid description is required.
                         </div>
                     </div>
 
-                    <button class="w-100 btn btn-primary btn-lg mt-5" type="button" onclick="createProject()">Crear
+                    <button class="w-100 btn btn-primary btn-lg mt-5"
+                            type="button"
+                            th:text="${project.name == null ? 'Crear' : ''}"
+                            th:if="${project.name == null}"
+                            th:onclick="createProject()">
+                    </button>
+
+                    <button class="w-100 btn btn-primary btn-lg mt-5"
+                            type="button"
+                            th:text="${project.name != null ? 'Guardar Cambios' : 'Crear'}"
+                            th:if="${project.name != null}"
+                            th:onclick="updateProject()">
                     </button>
                 </form>
             </div>
@@ -96,6 +109,52 @@
                 });
             }
         });
+    }
+
+    function updateProject() {
+        console.log("Actualizando proyecto...");
+
+        var projectData = {
+            name: $('#name').val(),
+            description: $('#description').val()
+        };
+
+        var id = $('#projectID').val()
+
+        Swal.fire({
+            title: "¿Estás seguro de actualizar este proyecto?",
+            text: "Los datos del proyecto \"" + projectData.name + "\" se actualizarán.",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Actualizar proyecto'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/projects/edit/' + id,
+                    contentType: 'application/json',
+                    data: JSON.stringify(projectData),
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Proyecto actualizado con éxito!',
+                            text: response,
+                        }).then(() => {
+                            window.location.href = "/projects";
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al actualizar el proyecto',
+                            text: xhr.responseText,
+                        });
+                    }
+                });
+            }
+        });
+
+
     }
 </script>
 
