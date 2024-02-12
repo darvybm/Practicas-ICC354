@@ -34,7 +34,8 @@ public class MockRequest {
     @Size(max = 60000, message = "La longitud del cuerpo (body) no puede exceder los 60000 caracteres")
     private String body;
 
-    private UUID projectId;
+    @NotBlank(message = "El mock debe estar asociado a un proyecto")
+    String projectId;
 
     private String expirationDate = "year";
 

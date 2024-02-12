@@ -9,6 +9,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,8 +36,9 @@ public class ProjectController {
 
     @GetMapping
     public String getAllProjects(Model model) {
-
-        List<Project> projects = projectService.getAllProjects();
+        User user = userService.getAuthenticatedUser();
+        System.out.println(user);
+        List<Project> projects = projectService.getAllProjectsByUser(userService.getAuthenticatedUser().getId());
         model.addAttribute("projects", projects);
         model.addAttribute("colors", Arrays.asList("#0C4E3A", "#12946D", "#10BE89", "#10BE89", "#12946D", "#0C4E3A"));
 
@@ -71,8 +77,8 @@ public class ProjectController {
         project.setName(projectRequest.getName());
         project.setDescription(projectRequest.getDescription());
 
-        //User falso
-        User user = userService.getAllUsers().getFirst();
+        project.setUser(userService.getAuthenticatedUser());
+
         return project;
     }
 }

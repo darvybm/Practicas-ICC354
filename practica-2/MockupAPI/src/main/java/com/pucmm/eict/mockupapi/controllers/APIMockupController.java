@@ -47,7 +47,7 @@ public class APIMockupController {
 
         System.out.println("METHOD: " + request.getMethod());
 
-        if (!mock.getMethod().equals(request.getMethod())) {
+        if (!mock.getMethod().equalsIgnoreCase(request.getMethod())) {
             return new ResponseEntity<>("Petición No válida", HttpStatus.METHOD_NOT_ALLOWED);
 
         }

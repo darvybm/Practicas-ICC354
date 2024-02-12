@@ -14,6 +14,11 @@ import org.springframework.boot.Banner;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +50,7 @@ public class MockController {
 
     @GetMapping
     public String getAllMocks(Model model) {
-        List<Mock> mocks = mockService.getAllMocks();
+        List<Mock> mocks = mockService.getAllMocksByUserId(userService.getAuthenticatedUser().getId());
         model.addAttribute("mocks", mocks);
         return "mock/list";
     }
@@ -67,14 +72,14 @@ public class MockController {
     @PostMapping("/create")
     public ResponseEntity<String> createMock(@Valid @RequestBody MockRequest mockRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            String errorMessage = bindingResult.getFieldError() != null ?
-                    Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage() :
-                    "Unknown validation error";
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
 
         try {
             Mock mock = convertToMock(mockRequest);
+            if (mock.getProject() == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo encontrar el proyecto correspondiente");
+            }
             mockService.createMock(mock);
             System.out.println("MOCK CREADO EXITOSAMENTE " + mock);
             System.out.println(ResponseEntity.ok("Mock creado exitosamente"));
@@ -91,7 +96,7 @@ public class MockController {
         mock.setHash(HashGenerator.generarHash());
         mock.setDescription(mockRequest.getDescription());
         mock.setEndpoint(mockRequest.getEndpoint());
-        mock.setMethod(mockRequest.getMethod());
+        mock.setMethod(mockRequest.getMethod().toUpperCase());
         mock.setHeaders(mockRequest.getHeaders());
         mock.setStatusCode(mockRequest.getStatusCode());
         mock.setContentType(mockRequest.getContentType());
@@ -112,17 +117,9 @@ public class MockController {
         mock.setDelay(mockRequest.getDelay());
         mock.setValidateJWT(mockRequest.isValidateJWT());
 
-        // Crear un usuario falso
-        User fakeUser = new User();
-        fakeUser.setUsername("fakeUser");
-        fakeUser.setPassword("fakePassword");
-        userService.createUser(fakeUser);
-        // Asignar el usuario al mock
-        mock.setUser(fakeUser);
+        mock.setUser(userService.getAuthenticatedUser());
 
-        // Asignar el proyecto al mock
-        mock.setProject(projectService.getProjectById(mockRequest.getProjectId()));
-
+        mock.setProject(projectService.getProjectById(UUID.fromString(mockRequest.getProjectId())));
 
         return mock;
     }

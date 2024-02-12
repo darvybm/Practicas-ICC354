@@ -290,7 +290,7 @@
                         statusCode: $('#responseStatus').val(),
                         contentType: $('#contentType').val(),
                         body: $('#responseBody').val(),
-                        projectId: $('#project').val(),
+                        projectId: $('#project').val() || '',
                         expirationDate: $('#expirationTime').val(),
                         delay: $('#delayResponseTime').val(),
                         headers: prepareHeaders(), // Utilizar la función que prepara los encabezados

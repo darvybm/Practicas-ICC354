@@ -1,13 +1,21 @@
 package com.pucmm.eict.mockupapi.controllers;
 
+import com.pucmm.eict.mockupapi.enums.UserRole;
 import com.pucmm.eict.mockupapi.models.User;
+import com.pucmm.eict.mockupapi.payload.request.UserRequest;
 import com.pucmm.eict.mockupapi.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -15,10 +23,12 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -42,8 +52,27 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUser(@ModelAttribute User user) {
-        userService.createUser(user);
-        return "redirect:/users";
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserRequest userRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String errorMessage = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+        }
+        try {
+            User user = convertToUser(userRequest);
+            userService.createUser(user);
+            return ResponseEntity.ok("Usuario creado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el usuario");
+        }
     }
+
+    private User convertToUser(UserRequest userRequest) {
+        User user = new User();
+        user.setName(userRequest.getName());
+        user.setUsername(userRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setRole(UserRole.valueOf(userRequest.getRole()));
+        return user;
+    }
+
 }
