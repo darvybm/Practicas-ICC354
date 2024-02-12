@@ -23,9 +23,9 @@
                     <div id="banner">
                         <h1 class="display-5">Detalle de Mock</h1>
                     </div>
-                    <div class="container-fluid px-4 mt-5">
-                        <div class="row g-3 mt-5">
-                            <div class="col-1 mt-5">
+                    <div class="container-fluid px-4">
+                        <div class="row g-3">
+                            <div class="col-1 mt-3">
                                 <a class="btn btn-primary"
                                    th:href="@{/{hash}/api/{projectName}/{endpoint}(hash=${mock.hash}, projectName=${mock.project.name}, endpoint=${mock.endpoint})}"
                                 >
@@ -33,7 +33,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-12 ">
+                            <div class="col-12 mt-3">
                                 <label for="name" class="form-label">Nombre</label>
                                 <input th:field="*{mock.name}" type="text" class="form-control" id="name" placeholder="" required="" disabled>
                             </div>

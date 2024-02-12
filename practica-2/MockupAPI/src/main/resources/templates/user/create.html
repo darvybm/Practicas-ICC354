@@ -23,9 +23,9 @@
                     <div id="banner">
                         <h1 class="display-5">Crear Usuario</h1>
                     </div>
-                    <div class="container-fluid px-4">
+                    <div class="container-fluid px-4 mt-3">
                         <form class="needs-validation" novalidate="" th:action="@{/users/create}" method="post" th:object="${user}">
-                            <div class="row g-3 mt-5">
+                            <div class="row g-3 mt-3">
                                 <div class="col-sm-6">
                                     <label for="name" class="form-label">Nombre</label>
                                     <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="" value="" required="">
