@@ -72,7 +72,9 @@
                                         <td th:text="${mock.expirationDate}">Exp. Date</td>
                                         <td th:text="${mock.delay}">Retraso (segundos)</td>
                                         <td>
-                                            <a class="btn btn-outline-info">
+                                            <a class="btn btn-outline-info"
+                                               th:href="@{/mocks/{id}(id=${mock.id})}"
+                                            >
                                                 Ver
                                             </a>
                                             <a class="btn btn-outline-success">

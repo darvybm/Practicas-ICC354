@@ -22,9 +22,11 @@
 
             <div id="layoutSidenav_content">
                 <main>
+                    <div id="banner">
+                        <h1 class="display-5">Crear Mock</h1>
+                    </div>
                     <div class="container-fluid px-4">
                         <form class="needs-validation" id="mockForm">
-                            <h2 class="display-5 mt-5" th:text="#{title}">Crear mock</h2>
                             <div class="row g-3 mt-5">
 
                                 <div class="col-12 mb-3" th:if="${#lists.isEmpty(projects)}">
@@ -69,12 +71,12 @@
                                     <label for="method" class="form-label" th:text="#{method}">Método</label>
                                     <select class="form-select" id="method" required="">
                                         <option selected value="" th:text="#{choose}">Elige...</option>
-                                        <option value="get" >GET</option>
-                                        <option value="post">POST</option>
-                                        <option value="put">PUT</option>
-                                        <option value="delete">DELETE</option>
-                                        <option value="patch">PATCH</option>
-                                        <option value="options">OPTIONS</option>
+                                        <option value="GET" >GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="PUT">PUT</option>
+                                        <option value="DELETE">DELETE</option>
+                                        <option value="PATCH">PATCH</option>
+                                        <option value="OPTIONS">OPTIONS</option>
                                     </select>
                                 </div>
 

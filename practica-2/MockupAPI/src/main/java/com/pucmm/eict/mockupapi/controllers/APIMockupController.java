@@ -27,7 +27,7 @@ public class APIMockupController {
         this.mockService = mockService;
     }
 
-    @RequestMapping(value = "{hash}/api/{projectName}/{endpoint}", method = {
+    @RequestMapping(value = "/{hash}/api/{projectName}/{endpoint}", method = {
             RequestMethod.GET,
             RequestMethod.POST,
             RequestMethod.PUT,
