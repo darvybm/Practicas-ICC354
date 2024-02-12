@@ -11251,7 +11251,7 @@ body {
   position: relative;
   width: 100%;
   height: 6rem;
-  background: url('https://icorp.com.mx/wp-content/uploads/2015/05/Tipos-de-nube-informatica-scaled.webp') center/cover no-repeat;
+  background: url('../assets/img/Tipos-de-nube-informatica-scaled.webp') center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11284,7 +11284,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('https://img.freepik.com/free-vector/abstract-background-big-data-concept_23-2148309419.jpg?w=2000&t=st=1707674644~exp=1707675244~hmac=da8f7b821bbae76b74c23052ab9b4bf171f5f809ec0c36d48f395618dfcb57e7') center/cover no-repeat;
+  background: url('../assets/img/abstract-background-big-data-concept_23-2148309419.jpg') center/cover no-repeat;
   filter: blur(8px);
   z-index: -1;
 }

@@ -52,6 +52,7 @@ public class MockController {
     public String getAllMocks(Model model) {
         List<Mock> mocks = mockService.getAllMocksByUserId(userService.getAuthenticatedUser().getId());
         model.addAttribute("mocks", mocks);
+        model.addAttribute("isAdmin", false);
         return "mock/list";
     }
 

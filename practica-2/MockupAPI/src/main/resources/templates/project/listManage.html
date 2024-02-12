@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Mockup API - Practica 2</title>
+        <title>Admin - List Project</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -21,43 +21,43 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div id="banner">
-                        <h1 class="display-5">Usuarios</h1>
+                        <h1 class="display-5">Todos los Proyectos</h1>
                     </div>
                     <div class="container-fluid px-4">
-                        <a  class="btn btn-primary mt-3" th:href="@{/manage/users/create}">Crear usuario</a>
-
                         <div class="card mt-3">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-table me-1"></i>
-                                    Lista de usuarios registrados
+                                    Lista de Proyectos
                                 </div>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Usuario</th>
-                                        <th>Rol</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Descripción</th>
+<!--                                        <th scope="col">Usuario</th>-->
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Usuario</th>
-                                        <th>Rol</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Descripción</th>
+<!--                                        <th scope="col">Usuario</th>-->
                                         <th>Acciones</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    <tr th:each="user: ${users}">
-                                        <td th:text="${user.name}" />
-                                        <td th:text="${user.username}" />
-                                        <td th:text="${user.role}" />
+                                    <tr th:each="project: ${projects}">
+                                        <td th:text="${project.name}">Nombre</td>
+                                        <td th:text="${project.description}">Descripción</td>
+<!--                                        <td >Usuario</td>-->
                                         <td>
-                                            <a th:href="@{'/manage/users/' + ${user.getId()}}" class="btn btn-outline-info">
+                                            <a class="btn btn-outline-info"
+                                               th:href="@{'/projects/' + ${project.getId()}}"
+                                            >
                                                 Ver
                                             </a>
                                             <a class="btn btn-outline-success">
