@@ -24,7 +24,7 @@
                         <h1 class="display-5">Mocks</h1>
                     </div>
                     <div class="container-fluid px-4">
-                        <a  class="btn btn-primary mt-3" th:href="@{/mocks/create}">Crear mock</a>
+                        <a th:unless="${isAdmin == true}" class="btn btn-primary mt-3" th:href="@{/mocks/create}">Crear mock</a>
                         <div class="card mt-3">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
@@ -38,6 +38,7 @@
                                     <tr>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Proyecto</th>
+                                        <th th:if="${isAdmin == true}" scope="col">Usuario</th>
                                         <th scope="col">Descripción</th>
                                         <th scope="col">Endpoint</th>
                                         <th scope="col">Método</th>
@@ -51,6 +52,7 @@
                                     <tr>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Proyecto</th>
+                                        <th th:if="${isAdmin == true}" scope="col">Usuario</th>
                                         <th scope="col">Descripción</th>
                                         <th scope="col">Endpoint</th>
                                         <th scope="col">Método</th>
@@ -64,6 +66,7 @@
                                     <tr th:each="mock: ${mocks}">
                                         <td th:text="${mock.name}">Nombre</td>
                                         <td th:text="${mock.project.name}"></td>
+                                        <td th:if="${isAdmin == true}" th:text="${mock.user.username}"></td>
                                         <td th:text="${mock.description}">Descripción</td>
                                         <td th:text="${mock.endpoint}">Endpoint</td>
                                         <td th:text="${mock.method}">Método</td>

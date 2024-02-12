@@ -24,10 +24,21 @@
                     </a>
 
                     <div class="sb-sidenav-menu-heading">Admin</div>
-                    <a class="nav-link" th:href="@{/users}" >
+                    <a class="nav-link" th:href="@{/manage/users}" >
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         <span  th:text="#{users}">Usuarios</span>
                     </a>
+
+                    <a class="nav-link" th:href="@{/manage/projects}" >
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        <span  th:text="#{projects}">Proyectos</span>
+                    </a>
+
+                    <a class="nav-link" th:href="@{/manage/mocks}" >
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        <span>Mocks</span>
+                    </a>
+
                 </div>
             </div>
         </nav>

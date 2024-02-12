@@ -49,6 +49,13 @@ public class AppController {
         user.setPassword("sifbisf.ffd");
         userService.createUser(user);
 
+        User user2 = new User();
+        user2.setUsername("anthonyb");
+        user2.setName("Anthony Beato");
+        user2.setRole(UserRole.ADMINISTRADOR);
+        user2.setPassword("123456");
+        userService.createUser(user2);
+
 
         ObjectMapper objectMapper = new ObjectMapper();
 

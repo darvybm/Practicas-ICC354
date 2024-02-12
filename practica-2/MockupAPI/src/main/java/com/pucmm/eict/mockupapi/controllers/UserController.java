@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/manage/users")
 public class UserController {
 
     private final UserService userService;
