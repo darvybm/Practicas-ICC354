@@ -23,7 +23,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div id="banner">
-                <h1 th:text="${project.name != null ? 'Editar Proyecto' : 'Crear Proyecto'}" class="display-5">Crear Proyecto</h1>
+                <h1 th:text="${edit ? 'Editar Proyecto' : 'Crear Proyecto'}" class="display-5">Crear Proyecto</h1>
             </div>
             <div class="container-fluid px-4 gap-3">
                 <form id="projectForm">
@@ -31,7 +31,7 @@
 
                     <div class="col-sm mt-3">
                         <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="name" placeholder="" required="" th:value="${project.name != null ? project.name : ''}" >
+                        <input type="text" class="form-control" id="name" placeholder="" required="" th:value="${edit ? project.name : ''}" >
                         <div class="invalid-feedback">
                             Valid name is required.
                         </div>
@@ -40,7 +40,7 @@
                     <div class="col-sm mt-3">
                         <label for="description" class="form-label">Descripción</label>
                         <input type="text" class="form-control" id="description"
-                               placeholder="Descripción de tu proyecto" required="" th:value="${project.name != null ? project.description : ''}">
+                               placeholder="Descripción de tu proyecto" required="" th:value="${edit ? project.description : ''}">
                         <div class="invalid-feedback">
                             Valid description is required.
                         </div>
@@ -48,15 +48,15 @@
 
                     <button class="w-100 btn btn-primary btn-lg mt-5"
                             type="button"
-                            th:text="${project.name == null ? 'Crear' : ''}"
-                            th:if="${project.name == null}"
+                            th:text="${!edit ? 'Crear' : ''}"
+                            th:if="${!edit}"
                             th:onclick="createProject()">
                     </button>
 
                     <button class="w-100 btn btn-primary btn-lg mt-5"
                             type="button"
-                            th:text="${project.name != null ? 'Guardar Cambios' : 'Crear'}"
-                            th:if="${project.name != null}"
+                            th:text="${edit ? 'Guardar Cambios' : 'Crear'}"
+                            th:if="${edit}"
                             th:onclick="updateProject()">
                     </button>
                 </form>

@@ -56,6 +56,7 @@ public class ProjectController {
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("project", new Project());
+        model.addAttribute("edit", false);
         return "project/create";
     }
 
@@ -64,6 +65,7 @@ public class ProjectController {
         Project project = projectService.getProjectById(id);
         System.out.println(project);
         model.addAttribute("project", project);
+        model.addAttribute("edit", true);
         return "project/create";
     }
 
