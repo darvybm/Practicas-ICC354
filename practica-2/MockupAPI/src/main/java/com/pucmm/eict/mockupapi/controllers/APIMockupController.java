@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pucmm.eict.mockupapi.models.Mock;
 import com.pucmm.eict.mockupapi.services.MockService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -56,6 +60,14 @@ public class APIMockupController {
             return new ResponseEntity<>("Mock expirado", HttpStatus.GONE);
         }
 
+        if (mock.isValidateJWT()) {
+            String userToken = request.getHeader("Authorization");
+
+            if (userToken == null || !userToken.equals("Bearer " + mock.getToken())) {
+                return new ResponseEntity<>("Token JWT no válido", HttpStatus.UNAUTHORIZED);
+            }
+        }
+
         simulateDelay(mock);
 
         HttpHeaders headers = createHeadersFromJson(mock.getHeaders());
@@ -87,5 +99,6 @@ public class APIMockupController {
             return new HttpHeaders();
         }
     }
+
 }
 

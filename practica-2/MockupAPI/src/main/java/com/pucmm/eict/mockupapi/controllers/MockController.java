@@ -6,6 +6,10 @@ import com.pucmm.eict.mockupapi.services.MockService;
 import com.pucmm.eict.mockupapi.services.ProjectService;
 import com.pucmm.eict.mockupapi.services.UserService;
 import com.pucmm.eict.mockupapi.utils.HashGenerator;
+import com.pucmm.eict.mockupapi.utils.TokenGenerator;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -112,7 +116,7 @@ public class MockController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createMock(@Valid @RequestBody MockRequest mockRequest, BindingResult bindingResult) {
+    public ResponseEntity<?> createMock(@Valid @RequestBody MockRequest mockRequest, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
@@ -121,6 +125,9 @@ public class MockController {
             Mock mock = convertToMock(mockRequest);
             if (mock.getProject() == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo encontrar el proyecto correspondiente");
+            }
+            if (mock.isValidateJWT()) {
+                mock.setToken(TokenGenerator.createToken(mock));
             }
             mockService.createMock(mock);
             System.out.println("MOCK CREADO EXITOSAMENTE " + mock);

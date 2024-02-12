@@ -40,6 +40,7 @@ public class Mock {
     private LocalDateTime expirationDate;
     private int delay;
     private boolean validateJWT;
+    private String token;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
