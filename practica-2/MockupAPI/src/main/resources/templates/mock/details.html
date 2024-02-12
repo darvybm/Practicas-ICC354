@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Detalle - Proyecto</title>
+        <title>Detalle - Mock</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -23,13 +23,71 @@
                     <div id="banner">
                         <h1 class="display-5">Detalle de Mock</h1>
                     </div>
-                    <div class="container-fluid px-4 mt-5">
-                        <h3 class="display-5" th:text="*{mock.name}">Nombre</h3>
-                        <h4 class="lead" th:text="*{mock.description}">Rol</h4>
-                        <span class="h5" th:text="*{mock.endpoint}">Nombre de endpoint</span>
-                        <span class="h5" th:text="*{mock.method}">Metodo</span>
+                    <div class="container-fluid px-4">
+                        <div class="row g-3">
+                            <div class="col-1 mt-3">
+                                <a class="btn btn-primary"
+                                   th:href="@{/{hash}/api/{projectName}/{endpoint}(hash=${mock.hash}, projectName=${mock.project.name}, endpoint=${mock.endpoint})}"
+                                >
+                                    Visitar
+                                </a>
+                            </div>
 
-<!--                        En desarrollo-->
+                            <div class="col-12 mt-3">
+                                <label for="name" class="form-label">Nombre</label>
+                                <input th:field="*{mock.name}" type="text" class="form-control" id="name" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="col-12 ">
+                                <label for="description" class="form-label">Descripcion</label>
+                                <input th:field="*{mock.description}" type="text" class="form-control" id="description" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="col-sm-6 ">
+                                <label for="project" class="form-label">Proyecto</label>
+                                <input th:field="*{mock.project.name}" type="text" class="form-control" id="project" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="col-sm-6 ">
+                                <label for="endpoint" class="form-label">Endpoint</label>
+                                <input th:field="*{mock.endpoint}" type="text" class="form-control" id="endpoint" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="col-sm-6 ">
+                                <label for="method" class="form-label">Metodo</label>
+                                <input th:field="*{mock.method}" type="text" class="form-control" id="method" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="mb-3 ">
+                                <label for="headers" class="form-label">Cabecera</label>
+                                <textarea th:field="*{mock.headers}" class="form-control" id="headers" rows="6" disabled></textarea>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="status_code" class="form-label">Codigo de Estado</label>
+                                <input th:field="*{mock.statusCode}" type="number" class="form-control" id="status_code" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="content_type" class="form-label">Tipo de Contenido</label>
+                                <input th:field="*{mock.contentType}" type="text" class="form-control" id="content_type" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="mb-3 ">
+                                <label for="responseBody" class="form-label">Cuerpo de Respuesta</label>
+                                <textarea th:field="*{mock.body}" class="form-control" id="responseBody" rows="6" disabled></textarea>
+                            </div>
+
+                            <div class="col-sm-6 ">
+                                <label for="expiration_date" class="form-label">Fecha de Expiración</label>
+                                <input th:field="*{mock.expirationDate}" type="date" class="form-control" id="expiration_date" placeholder="" required="" disabled>
+                            </div>
+
+                            <div class="col-sm-6 ">
+                                <label for="delay" class="form-label">Retraso (segundos)</label>
+                                <input th:field="*{mock.delay}" type="number" class="form-control" id="delay" placeholder="" required="" disabled>
+                            </div>
+                        </div>
                     </div>
                 </main>
                 <!-- Footer-->

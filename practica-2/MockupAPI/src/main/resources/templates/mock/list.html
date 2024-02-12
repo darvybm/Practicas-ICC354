@@ -24,9 +24,8 @@
                         <h1 class="display-5">Mocks</h1>
                     </div>
                     <div class="container-fluid px-4">
-                        <a  class="btn btn-primary mt-5" th:href="@{/mocks/create}">Crear mock</a>
-
-                        <div class="card mt-4">
+                        <a  class="btn btn-primary mt-3" th:href="@{/mocks/create}">Crear mock</a>
+                        <div class="card mt-3">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-table me-1"></i>
@@ -72,7 +71,9 @@
                                         <td th:text="${mock.expirationDate}">Exp. Date</td>
                                         <td th:text="${mock.delay}">Retraso (segundos)</td>
                                         <td>
-                                            <a class="btn btn-outline-info">
+                                            <a class="btn btn-outline-info"
+                                               th:href="@{/mocks/{id}(id=${mock.id})}"
+                                            >
                                                 Ver
                                             </a>
                                             <a class="btn btn-outline-success">
