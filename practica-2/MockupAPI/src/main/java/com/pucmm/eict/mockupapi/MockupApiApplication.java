@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
@@ -21,10 +22,12 @@ public class MockupApiApplication {
 	public static class DbInitializer implements CommandLineRunner {
 
 		private final UserRepository userRepository;
+		private final PasswordEncoder passwordEncoder;
 
 		@Autowired
-		public DbInitializer(UserRepository userRepository) {
+		public DbInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 			this.userRepository = userRepository;
+			this.passwordEncoder = passwordEncoder;
 		}
 
 		@Override
@@ -33,7 +36,7 @@ public class MockupApiApplication {
 				User admin = new User();
 				admin.setName("Administrador");
 				admin.setUsername("admin");
-				admin.setPassword("admin");
+				admin.setPassword(passwordEncoder.encode("admin"));
 				admin.setRole(UserRole.ADMINISTRADOR);
 
 				userRepository.save(admin);

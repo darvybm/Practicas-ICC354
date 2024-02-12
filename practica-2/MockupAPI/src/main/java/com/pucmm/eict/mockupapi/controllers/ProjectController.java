@@ -6,9 +6,13 @@ import com.pucmm.eict.mockupapi.payload.request.ProjectRequest;
 import com.pucmm.eict.mockupapi.services.ProjectService;
 import com.pucmm.eict.mockupapi.services.UserService;
 import jakarta.validation.Valid;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,8 +34,9 @@ public class ProjectController {
     }
 
     @GetMapping
-    public String getAllProjects(Model model) {
-
+    public String getAllProjects(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.getUserByUsername(userDetails.getUsername());
+        System.out.println(user);
         List<Project> projects = projectService.getAllProjects();
         model.addAttribute("projects", projects);
         model.addAttribute("colors", Arrays.asList("#0C4E3A", "#12946D", "#10BE89", "#10BE89", "#12946D", "#0C4E3A"));
