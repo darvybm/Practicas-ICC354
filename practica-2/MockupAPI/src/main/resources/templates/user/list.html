@@ -60,10 +60,10 @@
                                             <a th:href="@{'/manage/users/' + ${user.getId()}}" class="btn btn-outline-info">
                                                 Ver
                                             </a>
-                                            <a class="btn btn-outline-success">
+                                            <a th:href="@{'/manage/users/edit/' + ${user.getId()}}" class="btn btn-outline-success">
                                                 Editar
                                             </a>
-                                            <a class="btn btn-outline-danger">
+                                            <a th:href="@{'/manage/users/delete/' + ${user.getId()}}" class="btn btn-outline-danger">
                                                 Eliminar
                                             </a>
                                         </td>

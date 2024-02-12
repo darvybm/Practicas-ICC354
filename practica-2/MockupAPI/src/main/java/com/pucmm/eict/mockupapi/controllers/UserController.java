@@ -45,9 +45,39 @@ public class UserController {
         return "user/details";
     }
 
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable UUID id, Model model) {
+        User user = userService.getUserById(id);
+        System.out.println(user);
+        model.addAttribute("user", user);
+        return "user/create";
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable UUID id, @Valid @RequestBody UserRequest userRequest, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            String errorMessage = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+        }
+
+        try {
+            User user = userService.getUserById(id);
+            user.setRole(UserRole.valueOf(userRequest.getRole()));
+            user.setName(userRequest.getName());
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+            userService.updateUser(user);
+
+            return ResponseEntity.ok("User actualizado correctamente");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during user update" + e.getMessage());
+        }
+    }
+
     @GetMapping("/create")
-    public String showCreateForm(Model model) {
-        model.addAttribute("user", new User());
+    public String showCreateForm() {
         return "user/create";
     }
 
@@ -74,5 +104,4 @@ public class UserController {
         user.setRole(UserRole.valueOf(userRequest.getRole()));
         return user;
     }
-
 }

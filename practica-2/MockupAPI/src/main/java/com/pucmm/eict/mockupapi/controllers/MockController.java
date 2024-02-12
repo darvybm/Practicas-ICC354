@@ -1,8 +1,6 @@
 package com.pucmm.eict.mockupapi.controllers;
 
 import com.pucmm.eict.mockupapi.models.Mock;
-import com.pucmm.eict.mockupapi.models.Project;
-import com.pucmm.eict.mockupapi.models.User;
 import com.pucmm.eict.mockupapi.payload.request.MockRequest;
 import com.pucmm.eict.mockupapi.services.MockService;
 import com.pucmm.eict.mockupapi.services.ProjectService;
@@ -10,22 +8,14 @@ import com.pucmm.eict.mockupapi.services.UserService;
 import com.pucmm.eict.mockupapi.utils.HashGenerator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -61,6 +51,57 @@ public class MockController {
         Mock mock = mockService.getMockById(id);
         model.addAttribute("mock", mock);
         return "mock/details";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable UUID id, Model model) {
+        Mock mock = mockService.getMockById(id);
+        model.addAttribute("mock", mock);
+        return "mock/details";
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> updateMock(@PathVariable UUID id, @Valid @RequestBody MockRequest mockRequest, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+        }
+
+        try {
+            Mock mock = mockService.getMockById(id);
+            mock.setName(mockRequest.getName());
+            mock.setDescription(mockRequest.getDescription());
+            mock.setEndpoint(mockRequest.getEndpoint());
+            mock.setMethod(mockRequest.getMethod().toUpperCase());
+            mock.setHeaders(mockRequest.getHeaders());
+            mock.setContentType(mockRequest.getContentType());
+            mock.setBody(mockRequest.getBody());
+            mock.setExpirationDate(getExpiratonDate(mockRequest));
+            mock.setDelay(mockRequest.getDelay());
+
+            if (mock.getProject() == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo encontrar el proyecto correspondiente");
+            }
+            mockService.createMock(mock);
+            System.out.println("MOCK ACTUALIZADO EXITOSAMENTE " + mock);
+            System.out.println(ResponseEntity.ok("Mock Actualizado exitosamente"));
+            return ResponseEntity.status(HttpStatus.OK).body(mock);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al Actualizar el mock");
+        }
+    }
+
+    private LocalDateTime getExpiratonDate(@RequestBody @Valid MockRequest mockRequest) {
+        Map<String, ChronoUnit> unitMap = new HashMap<>();
+        unitMap.put("year", ChronoUnit.YEARS);
+        unitMap.put("month", ChronoUnit.MONTHS);
+        unitMap.put("week", ChronoUnit.WEEKS);
+        unitMap.put("day", ChronoUnit.DAYS);
+        unitMap.put("hour", ChronoUnit.HOURS);
+
+        return LocalDateTime.now().plus(1, unitMap.get(mockRequest.getExpirationDate()));
+
     }
 
     @GetMapping("/create")
@@ -104,16 +145,7 @@ public class MockController {
         mock.setBody(mockRequest.getBody());
         mock.setHash(HashGenerator.generarHash());
 
-        //Calculando la fecha de expiración
-        Map<String, ChronoUnit> unitMap = new HashMap<>();
-        unitMap.put("year", ChronoUnit.YEARS);
-        unitMap.put("month", ChronoUnit.MONTHS);
-        unitMap.put("week", ChronoUnit.WEEKS);
-        unitMap.put("day", ChronoUnit.DAYS);
-        unitMap.put("hour", ChronoUnit.HOURS);
-
-        LocalDateTime expirationDate = LocalDateTime.now().plus(1, unitMap.get(mockRequest.getExpirationDate()));
-        mock.setExpirationDate(expirationDate);
+        mock.setExpirationDate(getExpiratonDate(mockRequest));
 
         mock.setDelay(mockRequest.getDelay());
         mock.setValidateJWT(mockRequest.isValidateJWT());

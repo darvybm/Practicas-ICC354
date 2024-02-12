@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Crear user</title>
+        <title th:text="${user != null ? 'Editar Usuario' : 'Crear Usuario'}">Crear Usuario</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -22,53 +22,58 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div id="banner">
-                        <h1 class="display-5">Crear Usuario</h1>
+                        <h1 class="display-5" th:text="${user != null ? 'Editar Usuario' : 'Crear Usuario'}">Crear Usuario</h1>
                     </div>
                     <div class="container-fluid px-4">
-                        <form class="needs-validation" onsubmit="createUser()" id="userForm">
+                        <form id="userForm">
                             <div class="row g-3 mt-5">
+
+                                <label for="userId"></label>
+                                <input hidden="hidden" id="userId" th:value="${user.id}">
+
                                 <div class="col-sm-6">
                                     <label for="name" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="name" placeholder="" required="">
-                                    <div class="invalid-feedback">
-                                        Valid name is required.
-                                    </div>
+                                    <input type="text" class="form-control" id="name" placeholder="" required="" th:value="${user != null ? user.name : ''}">
                                 </div>
 
                                 <div class="col-sm-6">
                                     <label for="username" class="form-label">Usuario</label>
-                                    <div class="input-group has-validation">
+                                    <div class="input-group">
                                         <span class="input-group-text">@</span>
-                                        <input type="text" class="form-control" id="username" placeholder="Usuario" required="">
-                                        <div class="invalid-feedback">
-                                            Your username is required.
-                                        </div>
+                                        <input type="text" class="form-control" id="username" placeholder="Usuario" th:value="${user != null ? user.username : ''}" th:readonly="${user != null}">
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="password" class="form-label">Contraseña</label>
-                                    <div class="input-group has-validation">
-                                        <input type="password" class="form-control" id="password" required="">
-                                        <div class="invalid-feedback">
-                                            Your password is required.
-                                        </div>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" placeholder="Ingresa la nueva Contraseña">
                                     </div>
                                 </div>
 
                                 <div class="col-md-5">
                                     <label for="role" class="form-label">Rol</label>
-                                    <select class="form-select" id="role" required="">
+                                    <select class="form-select" id="role" th:value="${user != null ? user.role.name() : ''}">
                                         <option value="">Elige...</option>
-                                        <option>ADMINISTRADOR</option>
-                                        <option>USUARIO</option>
+                                        <option value="ADMINISTRADOR" th:selected="${user != null && user.role.name() == 'ADMINISTRADOR'}">ADMINISTRADOR</option>
+                                        <option value="USUARIO" th:selected="${user != null && user.role.name() == 'USUARIO'}">USUARIO</option>
                                     </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid role.
-                                    </div>
                                 </div>
                             </div>
-                            <button class="w-100 btn btn-primary btn-lg mt-5" type="button" onclick="createUser()">Crear</button>
+
+                            <button class="w-100 btn btn-primary btn-lg mt-5"
+                                    type="button"
+                                    th:text="${user != null ? 'Guardar Cambios' : 'Crear'}"
+                                    th:if="${user != null}"
+                                    th:onclick="updateUser()">
+                            </button>
+
+                            <button class="w-100 btn btn-primary btn-lg mt-5"
+                                    type="button"
+                                    th:text="${user == null ? 'Crear' : ''}"
+                                    th:if="${user == null}"
+                                    th:onclick="createUser()">
+                            </button>
                         </form>
                     </div>
                 </main>
@@ -127,7 +132,49 @@
                     }
                 });
             }
-        </script>
+            function updateUser() {
+                console.log("Actualizando usuario...");
 
+                var userData = {
+                    name: $('#name').val(),
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                    role: $('#role').val()
+                };
+
+                Swal.fire({
+                    title: "¿Estás seguro de actualizar este usuario?",
+                    text: "Los datos del usuario \"" + userData.name + "\" se actualizarán.",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Actualizar usuario'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'PUT',  // Use PUT for update
+                            url: '/manage/users/edit/' + $('#userId').val(),  // Replace 'existingUserId' with the actual user ID
+                            contentType: 'application/json',
+                            data: JSON.stringify(userData),
+                            success: function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Usuario actualizado con éxito!',
+                                    text: response,
+                                }).then(() => {
+                                    window.location.href = "/manage/users";
+                                });
+                            },
+                            error: function (xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error al actualizar el usuario',
+                                    text: xhr.responseText,  // Usa la respuesta del servidor como texto del mensaje
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

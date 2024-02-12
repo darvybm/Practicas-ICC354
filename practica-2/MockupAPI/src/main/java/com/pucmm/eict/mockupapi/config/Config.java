@@ -39,7 +39,7 @@ public class Config {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/error/**").permitAll()
-                                .requestMatchers("/users").hasRole(String.valueOf(UserRole.ADMINISTRADOR))
+                                .requestMatchers("/manage/**").hasRole(String.valueOf(UserRole.ADMINISTRADOR))
                                 .requestMatchers("assets/**", "css/**", "js/**").permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -55,12 +55,9 @@ public class Config {
                         logout
                                 .permitAll()
                                 .logoutUrl("/logout")
-                                .logoutSuccessHandler(new LogoutSuccessHandler() {
-                                    @Override
-                                    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                                        request.getSession().invalidate();
-                                        response.sendRedirect("/login");
-                                    }
+                                .logoutSuccessHandler((request, response, authentication) -> {
+                                    request.getSession().invalidate();
+                                    response.sendRedirect("/login");
                                 })
                 )
                 .build();
