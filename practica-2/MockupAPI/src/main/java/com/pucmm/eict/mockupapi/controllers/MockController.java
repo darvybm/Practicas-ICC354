@@ -70,7 +70,7 @@ public class MockController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createMock(@Valid @RequestBody MockRequest mockRequest, BindingResult bindingResult) {
+    public ResponseEntity<?> createMock(@Valid @RequestBody MockRequest mockRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
@@ -83,7 +83,7 @@ public class MockController {
             mockService.createMock(mock);
             System.out.println("MOCK CREADO EXITOSAMENTE " + mock);
             System.out.println(ResponseEntity.ok("Mock creado exitosamente"));
-            return ResponseEntity.status(HttpStatus.OK).body("Mock creado exitosamente");
+            return ResponseEntity.status(HttpStatus.OK).body(mock);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el mock");

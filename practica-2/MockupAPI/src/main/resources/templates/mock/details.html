@@ -1,105 +1,170 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Detalle - Mock</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div th:replace="~{fragments/header.html :: header}">...</div>
-        <div id="layoutSidenav">
-            <div th:replace="~{fragments/sidebar.html :: layoutSidevar}">...</div>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Detalle - Mock</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
+    <link href="/css/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header.html :: header}">...</div>
+<div id="layoutSidenav">
+    <div th:replace="~{fragments/sidebar.html :: layoutSidevar}">...</div>
 
-            <div id="layoutSidenav_content">
-                <main>
-                    <div id="banner">
-                        <h1 class="display-5">Detalle de Mock</h1>
-                    </div>
-                    <div class="container-fluid px-4">
-                        <div class="row g-3">
-                            <div class="col-1 mt-3">
-                                <a class="btn btn-primary"
-                                   th:href="@{/{hash}/api/{projectName}/{endpoint}(hash=${mock.hash}, projectName=${mock.project.name}, endpoint=${mock.endpoint})}"
-                                >
-                                    Visitar
-                                </a>
-                            </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div id="banner" style="height: 10rem !important;" class="d-flex flex-column align-items-center justify-content-center">
+                <h1 class="display-5">Detalle de Mock</h1>
 
-                            <div class="col-12 mt-3">
-                                <label for="name" class="form-label">Nombre</label>
-                                <input th:field="*{mock.name}" type="text" class="form-control" id="name" placeholder="" required="" disabled>
-                            </div>
+                <div class="mt-2" style="z-index: 1">
+                    <a class="btn btn-primary" th:href="@{/{hash}/api/{projectName}/{endpoint}(hash=${mock.hash}, projectName=${mock.project.name}, endpoint=${mock.endpoint})}">
+                        <i class="fas fa-link me-2"></i> Acceder al enlace
+                    </a>
+                </div>
+            </div>
 
-                            <div class="col-12 ">
-                                <label for="description" class="form-label">Descripcion</label>
-                                <input th:field="*{mock.description}" type="text" class="form-control" id="description" placeholder="" required="" disabled>
-                            </div>
+            <div class="container-fluid px-4 mt-3">
 
-                            <div class="col-sm-6 ">
-                                <label for="project" class="form-label">Proyecto</label>
-                                <input th:field="*{mock.project.name}" type="text" class="form-control" id="project" placeholder="" required="" disabled>
-                            </div>
-
-                            <div class="col-sm-6 ">
-                                <label for="endpoint" class="form-label">Endpoint</label>
-                                <input th:field="*{mock.endpoint}" type="text" class="form-control" id="endpoint" placeholder="" required="" disabled>
-                            </div>
-
-                            <div class="col-sm-6 ">
-                                <label for="method" class="form-label">Metodo</label>
-                                <input th:field="*{mock.method}" type="text" class="form-control" id="method" placeholder="" required="" disabled>
-                            </div>
-
-                            <div class="mb-3 ">
-                                <label for="headers" class="form-label">Cabecera</label>
-                                <textarea th:field="*{mock.headers}" class="form-control" id="headers" rows="6" disabled></textarea>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="status_code" class="form-label">Codigo de Estado</label>
-                                <input th:field="*{mock.statusCode}" type="number" class="form-control" id="status_code" placeholder="" required="" disabled>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="content_type" class="form-label">Tipo de Contenido</label>
-                                <input th:field="*{mock.contentType}" type="text" class="form-control" id="content_type" placeholder="" required="" disabled>
-                            </div>
-
-                            <div class="mb-3 ">
-                                <label for="responseBody" class="form-label">Cuerpo de Respuesta</label>
-                                <textarea th:field="*{mock.body}" class="form-control" id="responseBody" rows="6" disabled></textarea>
-                            </div>
-
-                            <div class="col-sm-6 ">
-                                <label for="expiration_date" class="form-label">Fecha de Expiración</label>
-                                <input th:field="*{mock.expirationDate}" type="date" class="form-control" id="expiration_date" placeholder="" required="" disabled>
-                            </div>
-
-                            <div class="col-sm-6 ">
-                                <label for="delay" class="form-label">Retraso (segundos)</label>
-                                <input th:field="*{mock.delay}" type="number" class="form-control" id="delay" placeholder="" required="" disabled>
+                <div class="row g-3">
+                    <div class="col-12 mt-3">
+                        <h5 class="fw-bold">Nombre</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.name}"></pre>
                             </div>
                         </div>
                     </div>
-                </main>
-                <!-- Footer-->
-                <div th:replace="~{fragments/footer.html :: footer}"></div>
-            </div>
-        </div>
 
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="/js/scripts.js"></script>
-        <script src="/js/datatables-simple-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    </body>
+                    <div class="col-12">
+                        <h5 class="fw-bold">Descripcion</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.description}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h5 class="fw-bold">Proyecto</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.name}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h5 class="fw-bold">Endpoint</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.endpoint}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h5 class="fw-bold">Metodo</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.method}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <h5 class="fw-bold">Cabecera</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.headers}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h5 class="fw-bold">Codigo de Estado</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.statusCode}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h5 class="fw-bold">Tipo de Contenido</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.contentType}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <h5 class="fw-bold">Cabecera</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.body}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h5 class="fw-bold">Fecha de Expiración</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.expirationDate}"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h5 class="fw-bold">Retraso (segundos)</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre th:text="*{mock.delay}"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer-->
+        <div th:replace="~{fragments/footer.html :: footer}"></div>
+    </div>
+</div>
+
+<!-- Bootstrap core JS y otros scripts-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+<script src="/js/datatables-simple-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded',function(e){
+        let field = document.querySelector('.field');
+        let input = document.querySelector('input');
+        let copyBtn = document.querySelector('.field button');
+
+        copyBtn.onclick = () =>{
+            input.select();
+            if(document.execCommand("copy")){
+                field.classList.add('active');
+                copyBtn.innerText = 'Copied';
+                setTimeout(()=>{
+                    field.classList.remove('active');
+                    copyBtn.innerText = 'Copy';
+                },3500)
+            }
+        }
+    })
+</script>
+
+</body>
 </html>

@@ -312,7 +312,7 @@
                             }).then((result) => {
                                 // Redirigir a la vista de mocks al hacer clic en "OK"
                                 if (result.isConfirmed) {
-                                    window.location.href = '/mocks';
+                                    window.location.href = "/mocks/"+response.id;
                                 }
                             });
                         },

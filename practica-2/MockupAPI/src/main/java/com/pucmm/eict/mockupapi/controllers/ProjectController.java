@@ -1,11 +1,14 @@
 package com.pucmm.eict.mockupapi.controllers;
 
+import com.pucmm.eict.mockupapi.models.Mock;
 import com.pucmm.eict.mockupapi.models.Project;
 import com.pucmm.eict.mockupapi.models.User;
 import com.pucmm.eict.mockupapi.payload.request.ProjectRequest;
+import com.pucmm.eict.mockupapi.services.MockService;
 import com.pucmm.eict.mockupapi.services.ProjectService;
 import com.pucmm.eict.mockupapi.services.UserService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +26,12 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/projects")
+@AllArgsConstructor
 public class ProjectController {
 
     private final ProjectService projectService;
     private final UserService userService;
-
-    @Autowired
-    public ProjectController(ProjectService projectService, UserService userService) {
-        this.projectService = projectService;
-        this.userService = userService;
-    }
+    private final MockService mockService;
 
     @GetMapping
     public String getAllProjects(Model model) {
@@ -48,7 +47,9 @@ public class ProjectController {
     @GetMapping("/{id}")
     public String getProjectById(@PathVariable UUID id, Model model) {
         Project project = projectService.getProjectById(id);
+        List<Mock> mocks = mockService.getAllMocksByProjectId(project.getId());
         model.addAttribute("project", project);
+        model.addAttribute("mocks", mocks);
         return "project/details";
     }
 

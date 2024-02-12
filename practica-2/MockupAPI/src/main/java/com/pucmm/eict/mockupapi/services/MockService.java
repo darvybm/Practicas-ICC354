@@ -37,4 +37,8 @@ public class MockService {
     public Mock getMockByHash(String hash) {
         return mockRepository.findByHash(hash);
     }
+
+    public List<Mock> getAllMocksByProjectId(UUID id) {
+        return mockRepository.findAllByProjectId(id);
+    }
 }
