@@ -22,6 +22,10 @@ public class MockService {
         return mockRepository.findAll();
     }
 
+    public List<Mock> getAllMocksByUserId(UUID id) {
+        return mockRepository.findAllByUserId(id);
+    }
+
     public Mock getMockById(UUID id) {
         return mockRepository.findById(id);
     }
