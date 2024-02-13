@@ -94,6 +94,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         }
         try {
+            if (userService.getUserByUsername(userRequest.getUsername()) != null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Ya exise un user con ese Username");
+            }
             User user = convertToUser(userRequest);
             userService.createUser(user);
             return ResponseEntity.ok("Usuario creado exitosamente");

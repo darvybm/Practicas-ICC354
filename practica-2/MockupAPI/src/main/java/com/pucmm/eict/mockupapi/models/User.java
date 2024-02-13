@@ -20,7 +20,12 @@ public class User {
     private UUID id;
 
     private String name;
+
+    @Column(unique = true)
     private String username;
+
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 }
