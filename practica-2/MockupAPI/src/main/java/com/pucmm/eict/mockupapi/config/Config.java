@@ -41,6 +41,8 @@ public class Config {
                                 .requestMatchers("/error/**").permitAll()
                                 .requestMatchers("/manage/**").hasRole(String.valueOf(UserRole.ADMINISTRADOR))
                                 .requestMatchers("assets/**", "css/**", "js/**").permitAll()
+                                .requestMatchers("/{hash}/api/**").permitAll()
+                                .requestMatchers("/authenticateToken").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(login ->

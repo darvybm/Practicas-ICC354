@@ -151,17 +151,12 @@ public class MockController {
         mock.setContentType(mockRequest.getContentType());
         mock.setBody(mockRequest.getBody());
         mock.setHash(HashGenerator.generarHash());
-
         mock.setExpirationDate(getExpiratonDate(mockRequest));
-
         mock.setDelay(mockRequest.getDelay());
         mock.setValidateJWT(mockRequest.isValidateJWT());
-
         mock.setUser(userService.getAuthenticatedUser());
-
         mock.setProject(projectService.getProjectById(UUID.fromString(mockRequest.getProjectId())));
 
         return mock;
     }
-
 }

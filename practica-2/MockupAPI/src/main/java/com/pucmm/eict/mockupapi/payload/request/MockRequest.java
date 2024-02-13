@@ -42,5 +42,6 @@ public class MockRequest {
     @Min(value = 0, message = "El tiempo de demora debe ser igual o mayor que 0")
     private int delay = 0;
 
-    private boolean validateJWT;
+    @NotNull(message = "No se está enviando correctamente la validación para JWT")
+    private boolean validateJWT = false;
 }

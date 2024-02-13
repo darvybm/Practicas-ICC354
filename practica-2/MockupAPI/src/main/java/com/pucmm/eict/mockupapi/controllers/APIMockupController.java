@@ -9,10 +9,13 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -38,11 +41,13 @@ public class APIMockupController {
             RequestMethod.PATCH,
             RequestMethod.DELETE})
 
-    public ResponseEntity<String> handleMockRequest(
+    public Object handleMockRequest(
             @PathVariable String hash,
             @PathVariable String projectName,
             @PathVariable String endpoint,
-            HttpServletRequest request) {
+            @RequestParam(value = "token", required = false) String token,
+            HttpServletRequest request
+    ) {
 
         Mock mock = mockService.getMockByHash(hash);
         if (mock == null) {
@@ -50,25 +55,28 @@ public class APIMockupController {
         }
 
         System.out.println("METHOD: " + request.getMethod());
+        System.out.println("MOOOOOCCCKKK:  " + mock);
 
         if (!mock.getMethod().equalsIgnoreCase(request.getMethod())) {
             return new ResponseEntity<>("Petición No válida", HttpStatus.METHOD_NOT_ALLOWED);
 
         }
 
+        System.out.println("METODO VALIDO");
+
         if (isMockExpired(mock)) {
             return new ResponseEntity<>("Mock expirado", HttpStatus.GONE);
         }
 
-        if (mock.isValidateJWT()) {
-            String userToken = request.getHeader("Authorization");
-
-            if (userToken == null || !userToken.equals("Bearer " + mock.getToken())) {
-                return new ResponseEntity<>("Token JWT no válido", HttpStatus.UNAUTHORIZED);
-            }
+        if (!isValidToken(token, mock.getToken())) {
+            return new ResponseEntity<>("Token inválido", HttpStatus.UNAUTHORIZED);
         }
 
+        System.out.println("PASO LA VALIDACION");
+
         simulateDelay(mock);
+
+        System.out.println("PASO EL DELAY");
 
         HttpHeaders headers = createHeadersFromJson(mock.getHeaders());
         String responseBody = mock.getBody();
@@ -100,5 +108,8 @@ public class APIMockupController {
         }
     }
 
+    private boolean isValidToken(String providedToken, String expectedToken) {
+        return providedToken != null && providedToken.equals(expectedToken);
+    }
 }
 

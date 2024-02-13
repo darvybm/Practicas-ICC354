@@ -24,13 +24,23 @@
                 <h1 class="display-5">Detalle de Mock</h1>
 
                 <div class="mt-2" style="z-index: 1">
-                    <a class="btn btn-primary" th:href="@{/{hash}/api/{projectName}/{endpoint}(hash=${mock.hash}, projectName=${mock.project.name}, endpoint=${mock.endpoint})}">
+                    <a class="btn btn-primary" th:href="@{'/' + ${mock.hash} + '/api/' + ${mock.project.name} + '/' + ${mock.endpoint} + '?token=' + ${mock.token}}">
                         <i class="fas fa-link me-2"></i> Acceder al enlace
                     </a>
                 </div>
             </div>
 
             <div class="container-fluid px-4 mt-3">
+
+                <div class="col-12">
+                    <h5 class="fw-bold">Token</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <pre th:if="${mock.isValidateJWT()}"><span th:text="${mock.token}"></span></pre>
+                            <pre th:unless="${mock.isValidateJWT()}">JWT validation disabled for this mock.</pre>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row g-3">
                     <div class="col-12 mt-3">

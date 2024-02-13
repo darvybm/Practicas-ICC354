@@ -2,6 +2,7 @@ package com.pucmm.eict.mockupapi.utils;
 
 import com.pucmm.eict.mockupapi.models.Mock;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
@@ -21,14 +22,14 @@ public class TokenGenerator {
         extra.put("name", mock.getUser().getName());
         extra.put("rol", mock.getUser().getRole().toString());
 
-        Date date = new Date(mock.getExpirationDate().toEpochSecond(ZoneOffset.of(ZoneId.systemDefault().getId())) * 1000);
-        System.out.println("FECHA: " + date.getTime());
+        Date date = Date.from(mock.getExpirationDate().atZone(ZoneId.systemDefault()).toInstant());
+        System.out.println("FECHA: " + date);
 
         return Jwts.builder()
                 .setSubject(mock.getUser().getUsername())
                 .setExpiration(date)
                 .addClaims(extra)
-                .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes()))
+                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
                 .compact();
     }
 }
