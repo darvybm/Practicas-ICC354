@@ -20,28 +20,4 @@ public class AppController {
         return "redirect:/projects";
     }
 
-    @GetMapping("")
-    public String handleError(HttpServletRequest request) {
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-        if (status != null) {
-            int statusCode = Integer.parseInt(status.toString());
-
-            if(statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "404";
-            }
-            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return "500";
-            }
-//            else if(statusCode == HttpStatus.FORBIDDEN.value()) {
-//                return "error-403";
-//            }
-            else if(statusCode == HttpStatus.FORBIDDEN.value()) {
-                return "403";
-            }
-        }
-        System.out.println("hay un error que no he manejado");
-        return "error";
-    }
-
 }
