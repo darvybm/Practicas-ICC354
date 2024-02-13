@@ -167,16 +167,16 @@
                                     <textarea class="form-control" id="responseBody" rows="6" th:value="${edit ? mock.body : ''}"></textarea>
                                 </div>
 
-                                <div class="col-sm-6 mb-3">
-                                    <label for="expirationTime" class="form-label" th:text="#{expiration_time}">Tiempo de expiración</label>
-                                    <select class="form-select" id="expirationTime" required="">
-                                        <option value="year" th:selected="${edit && mock.expirationTime == 'year'}">1 año</option>
-                                        <option value="month" th:selected="${edit && mock.expirationTime == 'month'}">1 mes</option>
-                                        <option value="week" th:selected="${edit && mock.expirationTime == 'week'}">1 semana</option>
-                                        <option value="day" th:selected="${edit && mock.expirationTime == 'day'}">1 día</option>
-                                        <option value="hour" th:selected="${edit && mock.expirationTime == 'hour'}">1 hora</option>
-                                    </select>
-                                </div>
+<!--                                <div class="col-sm-6 mb-3">-->
+<!--                                    <label for="expirationTime" class="form-label" th:text="#{expiration_time}">Tiempo de expiración</label>-->
+<!--                                    <select class="form-select" id="expirationTime" required="">-->
+<!--                                        <option value="year" th:selected="${edit && mock.expirationTime == 'year'}">1 año</option>-->
+<!--                                        <option value="month" th:selected="${edit && mock.expirationTime == 'month'}">1 mes</option>-->
+<!--                                        <option value="week" th:selected="${edit && mock.expirationTime == 'week'}">1 semana</option>-->
+<!--                                        <option value="day" th:selected="${edit && mock.expirationTime == 'day'}">1 día</option>-->
+<!--                                        <option value="hour" th:selected="${edit && mock.expirationTime == 'hour'}">1 hora</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
 
 
                                 <div class="col-sm-6 mb-3">
