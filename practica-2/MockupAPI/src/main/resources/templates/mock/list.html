@@ -13,6 +13,8 @@
         <link href="/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="@@path/vendor/countup.js/dist/countUp.umd.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     </head>
     <body class="sb-nav-fixed">
@@ -26,6 +28,25 @@
                         <h1 class="display-5">Mocks</h1>
                     </div>
                     <div class="container-fluid px-4">
+
+                        <div th:if="${isAdmin}" class="row mt-3">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="card mb-3 p-3 shadow">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8 col-sm-7">
+                                            <span class="h6 text-gray">Mocks creados</span>
+                                            <span class="counter display-6 text-secondary d-block" th:text="${mocks.size()}">0</span>
+                                        </div>
+                                        <div class="col-md-4 col-sm-5 d-flex justify-content-end">
+                                            <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width: 4rem; height: 4rem;">
+                                                <i class="bi bi-send-fill" style="font-size: 2rem;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <a th:unless="${isAdmin == true}" class="btn btn-primary mt-3" th:href="@{/mocks/create}">Crear mock</a>
                         <div class="card mt-3">
                             <div class="card-header d-flex justify-content-between align-items-center">

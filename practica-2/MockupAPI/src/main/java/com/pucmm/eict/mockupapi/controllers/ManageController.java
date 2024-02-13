@@ -33,7 +33,6 @@ public class ManageController {
     public String getAllProjects(Model model) {
         List<Project> projects = projectService.getAllProjects();
         model.addAttribute("projects", projects);
-
         return "project/listManage";
     }
 
