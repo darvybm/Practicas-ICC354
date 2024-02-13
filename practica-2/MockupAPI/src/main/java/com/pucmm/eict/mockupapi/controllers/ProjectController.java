@@ -7,6 +7,7 @@ import com.pucmm.eict.mockupapi.payload.request.ProjectRequest;
 import com.pucmm.eict.mockupapi.services.MockService;
 import com.pucmm.eict.mockupapi.services.ProjectService;
 import com.pucmm.eict.mockupapi.services.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,5 +112,17 @@ public class ProjectController {
         project.setUser(userService.getAuthenticatedUser());
 
         return project;
+    }
+
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<String> deleteProject(@PathVariable UUID id) {
+        try {
+            //projectService.deleteProjectById(id);
+            projectService.deleteProjectAndMocks(id);
+            return ResponseEntity.ok("Proyecto eliminado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el proyecto: " + e.getMessage());
+        }
     }
 }

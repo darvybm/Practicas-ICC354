@@ -2,6 +2,7 @@ package com.pucmm.eict.mockupapi.services;
 
 import com.pucmm.eict.mockupapi.models.Mock;
 import com.pucmm.eict.mockupapi.repositories.MockRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,10 @@ public class MockService {
 
     public List<Mock> getAllMocksByProjectId(UUID id) {
         return mockRepository.findAllByProjectId(id);
+    }
+
+    @Transactional
+    public void deleteMockByID(UUID id) {
+        mockRepository.deleteById(id);
     }
 }
