@@ -78,7 +78,7 @@ public class ProjectController {
         try {
             Project project = convertToProject(projectRequest);
             projectService.createProject(project);
-            return ResponseEntity.ok("Proyecto creado exitosamente");
+            return ResponseEntity.ok(project);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el proyecto");
         }

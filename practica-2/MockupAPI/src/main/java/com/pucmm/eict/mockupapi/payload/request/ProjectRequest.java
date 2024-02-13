@@ -11,7 +11,7 @@ public class ProjectRequest {
 
     @NotBlank(message = "El nombre no puede estar en blanco")
     @Size(max = 255, message = "El nombre no puede tener más de 255 caracteres")
-    @Pattern(regexp = "^[\\p{L}'-]+$", message = "El nombre no puede contener espacios")
+    @Pattern(regexp = "^[\\p{L}'-]*$", message = "El nombre no puede contener espacios ni otros símbolos")
     private String name;
 
     @NotBlank(message = "La descripción no puede estár en blanco")

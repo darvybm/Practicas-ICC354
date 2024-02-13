@@ -112,7 +112,7 @@ public class MockController {
     @GetMapping("/create")
     public String showCreateForm(Model model, Locale locale) {
         model.addAttribute("title", messageSource.getMessage("title", null, locale));
-        model.addAttribute("projects", projectService.getAllProjects());
+        model.addAttribute("projects", projectService.getAllProjectsByUser(userService.getAuthenticatedUser().getId()));
         model.addAttribute("mock", new Mock());
         model.addAttribute("edit", false);
         return "mock/create";
@@ -153,7 +153,6 @@ public class MockController {
         mock.setStatusCode(mockRequest.getStatusCode());
         mock.setContentType(mockRequest.getContentType());
         mock.setBody(mockRequest.getBody());
-        mock.setHash(HashGenerator.generarHash());
         mock.setExpirationDate(getExpiratonDate(mockRequest));
         mock.setDelay(mockRequest.getDelay());
         mock.setValidateJWT(mockRequest.isValidateJWT());

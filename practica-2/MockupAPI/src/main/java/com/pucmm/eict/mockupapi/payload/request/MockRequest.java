@@ -1,9 +1,6 @@
 package com.pucmm.eict.mockupapi.payload.request;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.util.UUID;
 
@@ -17,6 +14,7 @@ public class MockRequest {
     private String description;
 
     @NotBlank(message = "La ruta del endpoint no puede estar en blanco")
+    @Pattern(regexp = "^[\\p{L}'-]*$", message = "El endpoint no puede contener espacios ni otros símbolos")
     private String endpoint;
 
     @NotBlank(message = "El método del mock no puede estar en blanco")
@@ -35,6 +33,7 @@ public class MockRequest {
     private String body;
 
     @NotBlank(message = "El mock debe estar asociado a un proyecto")
+    @NotNull(message = "El mock debe estar asociado a un proyecto")
     String projectId;
 
     private String expirationDate = "year";
