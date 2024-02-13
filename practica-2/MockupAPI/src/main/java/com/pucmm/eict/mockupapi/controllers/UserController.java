@@ -52,7 +52,6 @@ public class UserController {
         System.out.println(user);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
-
         return "user/create";
     }
 
