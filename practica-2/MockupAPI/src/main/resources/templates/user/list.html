@@ -12,6 +12,7 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="sb-nav-fixed">
         <div th:replace="~{fragments/header.html :: header}">...</div>
@@ -63,9 +64,10 @@
                                             <a th:href="@{'/manage/users/edit/' + ${user.getId()}}" class="btn btn-outline-success">
                                                 Editar
                                             </a>
-                                            <a th:href="@{'/manage/users/delete/' + ${user.getId()}}" class="btn btn-outline-danger">
+                                            <a th:onclick="confirmDelete([[${user.getId()}]])" class="btn btn-outline-danger">
                                                 Eliminar
                                             </a>
+
                                         </td>
                                     </tr>
                                     </tbody>
@@ -81,9 +83,51 @@
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
         <!-- Core theme JS-->
         <script src="/js/scripts.js"></script>
         <script src="/js/datatables-simple-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script>
+            function confirmDelete(id) {
+                Swal.fire({
+                    title: "¿Estás seguro de eliminar este usuario?",
+                    text: "Los datos del usuario serán eliminados.",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Eliminar usuario'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteUser(id);
+                    }
+                });
+            }
+
+            function deleteUser(id) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/manage/users/delete/' + id,
+                    contentType: 'application/json',
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Usuario eliminado con éxito!',
+                            text: response,
+                        }).then(() => {
+                            window.location.href = "/manage/users";
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al eliminar el usuario',
+                            text: xhr.responseText,  // Usa la respuesta del servidor como texto del mensaje
+                        });
+                    }
+                });
+            }
+        </script>
+
     </body>
 </html>
