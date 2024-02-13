@@ -41,6 +41,7 @@ public class ProjectController {
         List<Project> projects = projectService.getAllProjectsByUser(userService.getAuthenticatedUser().getId());
         model.addAttribute("projects", projects);
         model.addAttribute("colors", Arrays.asList("#0C4E3A", "#12946D", "#10BE89", "#10BE89", "#12946D", "#0C4E3A"));
+        model.addAttribute("activePage", "project");
 
         return "project/list";
     }
@@ -51,6 +52,7 @@ public class ProjectController {
         List<Mock> mocks = mockService.getAllMocksByProjectId(project.getId());
         model.addAttribute("project", project);
         model.addAttribute("mocks", mocks);
+        model.addAttribute("activePage", "project");
         return "project/details";
     }
 

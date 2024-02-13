@@ -35,6 +35,7 @@ public class UserController {
     @GetMapping
     public String getAllUsers(Model model) {
         List<User> users = userService.getAllUsers();
+        model.addAttribute("activePage", "users");
         model.addAttribute("users", users);
         return "user/list";
     }

@@ -33,6 +33,7 @@ public class ManageController {
     public String getAllProjects(Model model) {
         List<Project> projects = projectService.getAllProjects();
         model.addAttribute("projects", projects);
+        model.addAttribute("activePage", "projectManage");
         return "project/listManage";
     }
 
@@ -41,6 +42,7 @@ public class ManageController {
         List<Mock> mocks = mockService.getAllMocks();
         model.addAttribute("mocks", mocks);
         model.addAttribute("isAdmin", true);
+        model.addAttribute("activePage", "mockManage");
         return "mock/list";
     }
 
