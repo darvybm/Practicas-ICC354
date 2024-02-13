@@ -60,6 +60,7 @@ public class MockController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable UUID id, Model model) {
         Mock mock = mockService.getMockById(id);
+        model.addAttribute("projects", projectService.getAllProjects());
         model.addAttribute("mock", mock);
         model.addAttribute("edit", true);
         return "mock/create";

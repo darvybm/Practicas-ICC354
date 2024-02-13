@@ -69,8 +69,8 @@
 
                                 <div class="col-sm-6 mb-3">
                                     <label for="method" class="form-label" th:text="#{method}">Método</label>
-                                    <select class="form-select" id="method" required="">
-                                        <option disabled selected value="" th:text="#{choose}">Elige...</option>
+                                    <select class="form-select" id="method" required="" th:value="${edit ? mock.method : ''}">
+                                        <option value="" th:text="#{choose}">Elige...</option>
                                         <option value="GET"  th:selected="${edit && mock.method == 'GET'}">GET</option>
                                         <option value="POST" th:selected="${edit && mock.method == 'POST'}">POST</option>
                                         <option value="PUT" th:selected="${edit && mock.method == 'PUT'}">PUT</option>
@@ -79,6 +79,7 @@
                                         <option value="OPTIONS" th:selected="${edit && mock.method == 'OPTIONS'}">OPTIONS</option>
                                     </select>
                                 </div>
+
 
                                 <label for="headers" class="form-label mb-3" th:text="#{headers}">Headers</label>
                                 <div class="row" id="headers">
@@ -95,8 +96,8 @@
 
                                 <div class="col-sm-6 mb-3">
                                     <label for="responseStatus" class="form-label" th:text="#{response_status}">Response status</label>
-                                    <select class="form-select" id="responseStatus" required="">
-                                        <option value="0" disabled selected th:text="#{choose}">Elige...</option>
+                                    <select class="form-select" id="responseStatus" required="" th:value="${edit ? mock.statusCode : 0}">
+                                        <option value="0" th:text="#{choose}">Elige...</option>
                                         <option value="100" th:selected="${edit && mock.statusCode == '100'}">100 - Continue</option>
                                         <option value="101" th:selected="${edit && mock.statusCode == '101'}">101 - Switching Protocols</option>
                                         <option value="200" th:selected="${edit && mock.statusCode == '200'}">200 - OK</option>
@@ -150,7 +151,7 @@
                                 <div class="col-12 mb-3">
                                     <div class="input-group">
                                         <label for="contentType" class="input-group-text" th:text="#{content_type}">Content Type</label>
-                                        <select class="form-select" id="contentType" required="">
+                                        <select class="form-select" id="contentType" required="" th:value="${edit ? mock.contentType : ''}">
                                             <option value="application/json" th:selected="${edit && mock.contentType == 'application/json'}">application/json</option>
                                             <option value="application/xml" th:selected="${edit && mock.contentType == 'application/xml'}">application/xml</option>
                                             <option value="text/xml" th:selected="${edit && mock.contentType == 'text/xml'}">text/xml</option>
@@ -167,9 +168,10 @@
                                     <textarea class="form-control" id="responseBody" rows="6" th:value="${edit ? mock.body : ''}"></textarea>
                                 </div>
 
+
                                 <div class="col-sm-6 mb-3">
                                     <label for="expirationTime" class="form-label" th:text="#{expiration_time}">Tiempo de expiración</label>
-                                    <select class="form-select" id="expirationTime" required="">
+                                    <select class="form-select" id="expirationTime" required="" th:value="${edit ? mock.expirationDate : ''}">
                                         <option value="year" th:selected="${edit && mock.expirationDate == 'year'}">1 año</option>
                                         <option value="month" th:selected="${edit && mock.expirationDate == 'month'}">1 mes</option>
                                         <option value="week" th:selected="${edit && mock.expirationDate == 'week'}">1 semana</option>
@@ -193,7 +195,7 @@
                             </div>
                             <button class="w-100 btn btn-primary btn-lg mt-5"
                                     type="button"
-                                    th:text="${!edit ? 'Crear' : ''}"
+                                    th:text="#{create}"
                                     th:if="${!edit}"
                                     th:onclick="createMock()">
                             </button>
@@ -362,14 +364,14 @@
 
                 console.log(mockData);
 
-                var id = $('#projectID').val()
+                var id = $('#mockID').val()
 
                 Swal.fire({
                     title: "¿Estás seguro de actualizar este Mock?",
                     text: "Los datos del mock \"" + mockData.name + "\" se actualizarán.",
                     icon: 'info',
                     showCancelButton: true,
-                    confirmButtonText: 'Actualizar proyecto'
+                    confirmButtonText: 'Actualizar mock'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
