@@ -44,6 +44,8 @@ public class UserController {
     public String getUserById(@PathVariable UUID id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
+        model.addAttribute("activePage", "users");
+
         return "user/details";
     }
 
@@ -53,6 +55,8 @@ public class UserController {
         System.out.println(user);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
+        model.addAttribute("activePage", "users");
+
         return "user/create";
     }
 
@@ -83,6 +87,8 @@ public class UserController {
     public String showCreateForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("edit", false);
+        model.addAttribute("activePage", "users");
+
 
         return "user/create";
     }

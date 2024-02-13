@@ -55,6 +55,7 @@ public class MockController {
     public String getMockById(@PathVariable UUID id, Model model) {
         Mock mock = mockService.getMockById(id);
         model.addAttribute("mock", mock);
+        model.addAttribute("activePage", "mock");
         return "mock/details";
     }
 
@@ -64,6 +65,7 @@ public class MockController {
         model.addAttribute("projects", projectService.getAllProjects());
         model.addAttribute("mock", mock);
         model.addAttribute("edit", true);
+        model.addAttribute("activePage", "mock");
         return "mock/create";
     }
 
@@ -116,6 +118,7 @@ public class MockController {
         model.addAttribute("projects", projectService.getAllProjectsByUser(userService.getAuthenticatedUser().getId()));
         model.addAttribute("mock", new Mock());
         model.addAttribute("edit", false);
+        model.addAttribute("activePage", "mock");
         return "mock/create";
     }
 

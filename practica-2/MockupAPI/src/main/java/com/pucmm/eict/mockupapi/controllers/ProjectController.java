@@ -60,6 +60,8 @@ public class ProjectController {
     public String showCreateForm(Model model) {
         model.addAttribute("project", new Project());
         model.addAttribute("edit", false);
+        model.addAttribute("activePage", "project");
+
         return "project/create";
     }
 
@@ -69,6 +71,8 @@ public class ProjectController {
         System.out.println(project);
         model.addAttribute("project", project);
         model.addAttribute("edit", true);
+        model.addAttribute("activePage", "project");
+
         return "project/create";
     }
 
