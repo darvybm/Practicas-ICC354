@@ -22,7 +22,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div id="banner">
-                        <h1 class="display-5" th:text="${user != null ? 'Editar Usuario' : 'Crear Usuario'}">Crear Usuario</h1>
+                        <h1 class="display-5" th:text="${edit ? 'Editar Usuario' : 'Crear Usuario'}">Crear Usuario</h1>
                     </div>
                     <div class="container-fluid px-4">
                         <form id="userForm">
@@ -33,14 +33,14 @@
 
                                 <div class="col-sm-6">
                                     <label for="name" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="name" placeholder="" required="" th:value="${user != null ? user.name : ''}">
+                                    <input type="text" class="form-control" id="name" placeholder="" required="" th:value="${edit ? user.name : ''}">
                                 </div>
 
                                 <div class="col-sm-6">
                                     <label for="username" class="form-label">Usuario</label>
                                     <div class="input-group">
                                         <span class="input-group-text">@</span>
-                                        <input type="text" class="form-control" id="username" placeholder="Usuario" th:value="${user != null ? user.username : ''}" th:readonly="${user != null}">
+                                        <input type="text" class="form-control" id="username" placeholder="Usuario" th:value="${edit ? user.username : ''}" th:readonly="${edit}">
                                     </div>
                                 </div>
 
@@ -53,25 +53,25 @@
 
                                 <div class="col-md-5">
                                     <label for="role" class="form-label">Rol</label>
-                                    <select class="form-select" id="role" th:value="${user != null ? user.role.name() : ''}">
+                                    <select class="form-select" id="role" th:value="${edit ? user.role.name() : ''}">
                                         <option value="">Elige...</option>
-                                        <option value="ADMINISTRADOR" th:selected="${user != null && user.role.name() == 'ADMINISTRADOR'}">ADMINISTRADOR</option>
-                                        <option value="USUARIO" th:selected="${user != null && user.role.name() == 'USUARIO'}">USUARIO</option>
+                                        <option value="ADMINISTRADOR" th:selected="${edit && user.role.name() == 'ADMINISTRADOR'}">ADMINISTRADOR</option>
+                                        <option value="USUARIO" th:selected="${edit && user.role.name() == 'USUARIO'}">USUARIO</option>
                                     </select>
                                 </div>
                             </div>
 
                             <button class="w-100 btn btn-primary btn-lg mt-5"
                                     type="button"
-                                    th:text="${user != null ? 'Guardar Cambios' : 'Crear'}"
-                                    th:if="${user != null}"
+                                    th:text="${edit ? 'Guardar Cambios' : 'Crear'}"
+                                    th:if="${edit}"
                                     th:onclick="updateUser()">
                             </button>
 
                             <button class="w-100 btn btn-primary btn-lg mt-5"
                                     type="button"
-                                    th:text="${user == null ? 'Crear' : ''}"
-                                    th:if="${user == null}"
+                                    th:text="${!edit ? 'Crear' : ''}"
+                                    th:if="${!edit}"
                                     th:onclick="createUser()">
                             </button>
                         </form>

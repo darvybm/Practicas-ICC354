@@ -1,6 +1,7 @@
 package com.pucmm.eict.mockupapi.controllers;
 
 import com.pucmm.eict.mockupapi.enums.UserRole;
+import com.pucmm.eict.mockupapi.models.Project;
 import com.pucmm.eict.mockupapi.models.User;
 import com.pucmm.eict.mockupapi.payload.request.UserRequest;
 import com.pucmm.eict.mockupapi.services.UserService;
@@ -50,6 +51,8 @@ public class UserController {
         User user = userService.getUserById(id);
         System.out.println(user);
         model.addAttribute("user", user);
+        model.addAttribute("edit", true);
+
         return "user/create";
     }
 
@@ -77,7 +80,10 @@ public class UserController {
     }
 
     @GetMapping("/create")
-    public String showCreateForm() {
+    public String showCreateForm(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("edit", false);
+
         return "user/create";
     }
 

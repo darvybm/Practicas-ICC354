@@ -61,7 +61,8 @@ public class MockController {
     public String showEditForm(@PathVariable UUID id, Model model) {
         Mock mock = mockService.getMockById(id);
         model.addAttribute("mock", mock);
-        return "mock/details";
+        model.addAttribute("edit", true);
+        return "mock/create";
     }
 
     @PutMapping("/edit/{id}")
@@ -105,13 +106,14 @@ public class MockController {
         unitMap.put("hour", ChronoUnit.HOURS);
 
         return LocalDateTime.now().plus(1, unitMap.get(mockRequest.getExpirationDate()));
-
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model, Locale locale) {
         model.addAttribute("title", messageSource.getMessage("title", null, locale));
         model.addAttribute("projects", projectService.getAllProjects());
+        model.addAttribute("mock", new Mock());
+        model.addAttribute("edit", false);
         return "mock/create";
     }
 

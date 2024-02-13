@@ -79,7 +79,9 @@
                                             >
                                                 Ver
                                             </a>
-                                            <a class="btn btn-outline-success">
+                                            <a class="btn btn-outline-success"
+                                               th:href="@{/mocks/edit/{id}(id=${mock.id})}"
+                                            >
                                                 Editar
                                             </a>
                                             <a class="btn btn-outline-danger">
