@@ -10,4 +10,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     Project findById(UUID id);
 
     List<Project> findAllByUserId(UUID user_id);
+
+    void deleteById(UUID id);
 }

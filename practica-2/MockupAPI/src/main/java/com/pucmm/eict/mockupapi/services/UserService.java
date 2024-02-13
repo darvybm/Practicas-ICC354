@@ -2,6 +2,7 @@ package com.pucmm.eict.mockupapi.services;
 
 import com.pucmm.eict.mockupapi.models.User;
 import com.pucmm.eict.mockupapi.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,4 +60,11 @@ public class UserService implements UserDetailsService {
                 .roles(user.getRole().name())
                 .build();
     }
+
+    @Transactional
+    public void deleteUserById(UUID id) {
+        userRepository.deleteById(id);
+    }
+
+
 }

@@ -84,7 +84,9 @@
                                             >
                                                 Editar
                                             </a>
-                                            <a class="btn btn-outline-danger">
+                                            <a class="btn btn-outline-danger"
+                                               th:href="@{/mocks/delete/{id}(id=${mock.id})}"
+                                            >
                                                 Eliminar
                                             </a>
                                         </td>
@@ -106,5 +108,28 @@
         <script src="/js/scripts.js"></script>
         <script src="/js/datatables-simple-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script>
+            // Función para borrar un proyecto
+            function deleteProject(mockId) {
+                console.log("Borrando mock con ID:", mockId);
+
+                // Aquí realizas la solicitud AJAX para eliminar el mock
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/mocks/delete/' + mockId,
+                    success: function(response) {
+                        console.log("Mock borrado exitosamente");
+                        // Realizar cualquier acción adicional después de borrar el mock
+                        // Por ejemplo, recargar la página o actualizar la lista de mocks
+                    },
+                    error: function(xhr) {
+                        console.error("Error al borrar el mock:", xhr.responseText);
+                        // Manejar errores si es necesario
+                    }
+                });
+            }
+
+
+        </script>
     </body>
 </html>

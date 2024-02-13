@@ -110,4 +110,15 @@ public class UserController {
         user.setRole(UserRole.valueOf(userRequest.getRole()));
         return user;
     }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
+        try {
+            userService.deleteUserById(id);
+            return ResponseEntity.ok("Usuario eliminado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el usuario: " + e.getMessage());
+        }
+    }
+
 }

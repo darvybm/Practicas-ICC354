@@ -41,7 +41,8 @@
                                         <a class="btn btn-outline-success" th:href="@{'/projects/edit/' + ${proyecto.getId()}}">
                                             Editar
                                         </a>
-                                        <a class="btn btn-outline-danger">
+                                        <a class="btn btn-outline-danger"
+                                           th:href="@{'/projects/delete/' + ${proyecto.getId()}}">
                                             Eliminar
                                         </a>
                                     </div>

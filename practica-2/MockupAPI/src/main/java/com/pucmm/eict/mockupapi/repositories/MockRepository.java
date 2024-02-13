@@ -14,4 +14,6 @@ public interface MockRepository extends JpaRepository<Mock, Integer> {
     List<Mock> findAllByUserId(UUID id);
 
     List<Mock> findAllByProjectId(UUID id);
+
+    void deleteById(UUID id);
 }

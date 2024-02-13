@@ -1,7 +1,11 @@
 package com.pucmm.eict.mockupapi.services;
 
+import com.pucmm.eict.mockupapi.models.Mock;
 import com.pucmm.eict.mockupapi.models.Project;
+import com.pucmm.eict.mockupapi.repositories.MockRepository;
 import com.pucmm.eict.mockupapi.repositories.ProjectRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +16,14 @@ import java.util.UUID;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final MockRepository mockRepository;
+    private final MockService mockService;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, MockRepository mockRepository, MockService mockService) {
         this.projectRepository = projectRepository;
+        this.mockRepository = mockRepository;
+        this.mockService = mockService;
     }
 
     public List<Project> getAllProjects() {
@@ -36,5 +44,24 @@ public class ProjectService {
 
     public Project updateProject(Project project) {
         return projectRepository.save(project);
+    }
+
+    @Transactional
+    public void deleteProjectAndMocks(UUID projectId) {
+        Project project = projectRepository.findById(projectId);
+
+        // Borrar los mocks asociados al proyecto
+        List<Mock> mocks = mockService.getAllMocksByProjectId(projectId);
+        for (Mock mock : mocks) {
+            mockRepository.delete(mock);
+        }
+
+        // Finalmente, borrar el proyecto
+        projectRepository.deleteById(projectId);
+    }
+
+    @Transactional
+    public void deleteProjectById(UUID id) {
+        projectRepository.deleteById(id);
     }
 }

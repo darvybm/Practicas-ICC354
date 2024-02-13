@@ -167,4 +167,14 @@ public class MockController {
         return mock;
     }
 
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<String> deleteMock(@PathVariable UUID id) {
+        try {
+            mockService.deleteMockByID(id);
+            return ResponseEntity.ok("Mock eliminado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el mock: " + e.getMessage());
+        }
+    }
+
 }
