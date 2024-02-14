@@ -1,5 +1,7 @@
 package com.pucmm.eict.mockupapi.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pucmm.eict.mockupapi.models.Mock;
 import com.pucmm.eict.mockupapi.payload.request.MockRequest;
 import com.pucmm.eict.mockupapi.services.MockService;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -66,6 +69,15 @@ public class MockController {
         model.addAttribute("mock", mock);
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "mock");
+
+        // Parsear el JSON de los headers y agregarlos al modelo
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Map<String, String> headersMap = objectMapper.readValue(mock.getHeaders(), new TypeReference<Map<String, String>>() {});
+            model.addAttribute("headersMap", headersMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "mock/create";
     }
 
