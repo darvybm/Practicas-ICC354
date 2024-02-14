@@ -14,6 +14,8 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- SweetAlert -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     </head>
     <body class="sb-nav-fixed">
         <div th:replace="~{fragments/header.html :: header}">...</div>
@@ -53,12 +55,20 @@
 
                                 <div class="col-sm-6 mb-3">
                                     <label for="name" class="form-label" th:text="#{name}">Nombre</label>
-                                    <input type="text" class="form-control" id="name" placeholder="" value="" required="" th:value="${edit ? mock.name : ''}">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-card-text"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="name" placeholder="" value="" required="" th:value="${edit ? mock.name : ''}">
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-6 mb-3">
                                     <label for="description" class="form-label" th:text="#{description}">Descripción</label>
                                     <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-chat-square-text"></i>
+                                        </span>
                                         <input type="text" class="form-control" id="description" th:placeholder="#{description_placeholder}" required="" th:value="${edit ? mock.description : ''}">
                                     </div>
                                 </div>
@@ -207,7 +217,12 @@
 
                                 <div class="col-sm-6 mb-3">
                                     <label class="form-label" for="delayResponseTime" th:text="#{delay}">Demora de respuesta (segundos)</label>
-                                    <input type="number" class="form-control" id="delayResponseTime" placeholder="Tiempo de demora" th:value="${edit ? mock.delay : ''}">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-hourglass-top"></i>
+                                        </span>
+                                        <input type="number" class="form-control" id="delayResponseTime" placeholder="Tiempo de demora" th:value="${edit ? mock.delay : ''}">
+                                    </div>
                                 </div>
 
                                 <div class="col-12 mb-3">

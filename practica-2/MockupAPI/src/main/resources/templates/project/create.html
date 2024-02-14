@@ -14,6 +14,8 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </head>
 <body class="sb-nav-fixed">
 <div th:replace="~{fragments/header.html :: header}">...</div>
@@ -31,18 +33,23 @@
 
                     <div class="col-sm mt-3">
                         <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="name" placeholder="" required="" th:value="${edit ? project.name : ''}" >
-                        <div class="invalid-feedback">
-                            Valid name is required.
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-card-text"></i>
+                            </span>
+                            <input type="text" class="form-control" id="name" placeholder="Nombre de tu proyecto" required="" th:value="${edit ? project.name : ''}" >
                         </div>
+
                     </div>
 
                     <div class="col-sm mt-3">
                         <label for="description" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="description"
-                               placeholder="Descripción de tu proyecto" required="" th:value="${edit ? project.description : ''}">
-                        <div class="invalid-feedback">
-                            Valid description is required.
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-chat-square-text"></i>
+                            </span>
+                            <input type="text" class="form-control" id="description"
+                                   placeholder="Descripción de tu proyecto" required="" th:value="${edit ? project.description : ''}">
                         </div>
                     </div>
 
