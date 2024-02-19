@@ -1,5 +1,7 @@
 package com.pucmm.eict.mockupapi.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pucmm.eict.mockupapi.models.Mock;
 import com.pucmm.eict.mockupapi.payload.request.MockRequest;
 import com.pucmm.eict.mockupapi.services.MockService;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -66,8 +69,27 @@ public class MockController {
         model.addAttribute("mock", mock);
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "mock");
+
+        List<Map.Entry<String, String>> headersList = parseHeaders(mock.getHeaders());
+        model.addAttribute("headersList", headersList);
+
         return "mock/create";
     }
+
+    private List<Map.Entry<String, String>> parseHeaders(String headersJson) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            // Deserializar el JSON a un Map<String, String>
+            Map<String, String> headersMap = objectMapper.readValue(headersJson, new TypeReference<Map<String, String>>() {});
+            // Convertir el Map a una lista de entradas (clave, valor)
+            return new ArrayList<>(headersMap.entrySet());
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar la excepción si hay un problema al parsear los headers
+            return Collections.emptyList();
+        }
+    }
+
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> updateMock(@PathVariable UUID id, @Valid @RequestBody MockRequest mockRequest, BindingResult bindingResult) {

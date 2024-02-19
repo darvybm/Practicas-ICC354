@@ -1,10 +1,14 @@
 package com.pucmm.eict.mockupapi.controllers;
 
+import com.pucmm.eict.mockupapi.models.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/error")
@@ -32,5 +36,35 @@ public class ErrorController {
             }
         }
         return "error/error";
+    }
+
+    @GetMapping("/400")
+    public String getError400() {
+
+        return "error/400";
+    }
+
+    @GetMapping("/401")
+    public String getError401() {
+
+        return "error/401";
+    }
+
+    @GetMapping("/403")
+    public String getError403() {
+
+        return "error/403";
+    }
+
+    @GetMapping("/404")
+    public String getError404() {
+
+        return "error/404";
+    }
+
+    @GetMapping("/500")
+    public String getError500() {
+
+        return "error/500";
     }
 }
