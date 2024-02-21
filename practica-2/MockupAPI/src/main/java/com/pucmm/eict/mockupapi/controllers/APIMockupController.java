@@ -90,7 +90,7 @@ public class APIMockupController {
 
     private void simulateDelay(Mock mock) {
         try {
-            Thread.sleep(mock.getDelay());
+            Thread.sleep(mock.getDelay() * 1000L);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
