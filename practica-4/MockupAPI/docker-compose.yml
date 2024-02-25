@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  mockupapi:
+    container_name: mockAPI
+    image: mockupapi:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${HOST_PORT:-8080}:8080"  # Use HOST_PORT variable or default to 8080
+    environment:
+      - DATABASE_URL=jdbc:h2:mem:testdb
+      - DATABASE_USERNAME=sa
+      - DATABASE_PASSWORD=password
+    depends_on:
+      - db
+    volumes:
+      - "${DB_VOLUME:-./db-data}:/h2-data"
+
+  db:
+    image: h2database/h2:latest
+    environment:
+      - H2_CONSOLE=true
+      - H2_DATA_DIR=/h2-data
+    volumes:
+      - "${DB_VOLUME:-./db-data}:/h2-data"
+    expose:
+      - 9092
+
