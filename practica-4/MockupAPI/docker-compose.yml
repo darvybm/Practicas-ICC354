@@ -3,28 +3,53 @@ version: '3.9'
 services:
   mockupapi:
     container_name: mockAPI
-    image: mockupapi:latest
+    image: mockupapi # ojo
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${HOST_PORT:-8080}:8080"  # Use HOST_PORT variable or default to 8080
-    environment:
-      - DATABASE_URL=jdbc:h2:mem:testdb
-      - DATABASE_USERNAME=sa
-      - DATABASE_PASSWORD=password
+      - ${PUERTO_APP}:8080  # Use HOST_PORT variable or default to 8080
+    env_file:
+      - .env
+#    environment:
+#      -
     depends_on:
       - db
+    restart: always
+    networks:
+      - mockapi-red
     volumes:
-      - "${DB_VOLUME:-./db-data}:/h2-data"
+      - mockapi-volumen:/tmp/
 
   db:
-    image: h2database/h2:latest
-    environment:
-      - H2_CONSOLE=true
-      - H2_DATA_DIR=/h2-data
-    volumes:
-      - "${DB_VOLUME:-./db-data}:/h2-data"
+    image: mysql:8.0.23
     expose:
-      - 9092
+      - ${PUERTO_DB}:3306
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_USER=$DB_USER
+    volumes: #volumen de datos utilizado.
+      - ~/dato_mysql_compose:/var/lib/mysql
+    networks:
+      - mockapi-red
 
+  phpmyadmin:
+      image: phpmyadmin:5.1.1
+      env_file:
+        - .env
+      ports:
+        - ${PUERTO_PHPMYADMIN}:80
+      environment:
+        - PMA_ARBITRARY=1
+      networks:
+        - mockapi-red
+      depends_on: #indica que primero debe subir los servicios indicados.
+        - db
+
+networks:
+  mockapi-red:
+
+volumes:
+  mockapi-volumen:
