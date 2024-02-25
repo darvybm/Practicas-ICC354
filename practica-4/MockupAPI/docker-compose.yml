@@ -3,16 +3,14 @@ version: '3.9'
 services:
   mockupapi:
     container_name: mockAPI
-    image: mockupapi # ojo
+    image: mockupapi
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - ${PUERTO_APP}:8080  # Use HOST_PORT variable or default to 8080
+      - ${PUERTO_APP}:8080
     env_file:
       - .env
-#    environment:
-#      -
     depends_on:
       - db
     restart: always
@@ -28,25 +26,25 @@ services:
     env_file:
       - .env
     environment:
-      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
-      - MYSQL_USER=$DB_USER
-    volumes: #volumen de datos utilizado.
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=mockapiDB
+    volumes:
       - ~/dato_mysql_compose:/var/lib/mysql
     networks:
       - mockapi-red
 
   phpmyadmin:
-      image: phpmyadmin:5.1.1
-      env_file:
-        - .env
-      ports:
-        - ${PUERTO_PHPMYADMIN}:80
-      environment:
-        - PMA_ARBITRARY=1
-      networks:
-        - mockapi-red
-      depends_on: #indica que primero debe subir los servicios indicados.
-        - db
+    image: phpmyadmin:5.1.1
+    env_file:
+      - .env
+    ports:
+      - ${PUERTO_PHPMYADMIN}:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - mockapi-red
+    depends_on:
+      - db
 
 networks:
   mockapi-red:
