@@ -27,9 +27,11 @@ services:
       - .env
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=mockapiDB
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
-      - ~/dato_mysql_compose:/var/lib/mysql
+      - ${VOL_URL}
     networks:
       - mockapi-red
 
