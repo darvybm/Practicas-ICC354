@@ -3,8 +3,6 @@ package com.pucmm.eict.jmssensordata.jms;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pucmm.eict.jmssensordata.model.SensorData;
-import jakarta.jms.*;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

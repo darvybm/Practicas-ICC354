@@ -5,6 +5,8 @@ import com.pucmm.eict.jmssensordata.repository.SensorDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SensorDataService {
 
@@ -17,5 +19,9 @@ public class SensorDataService {
 
     public void addSensorData(SensorData sensorData) {
         sensorDataRepository.save(sensorData);
+    }
+
+    public List<SensorData> getAll() {
+        return sensorDataRepository.findAll();
     }
 }

@@ -1,86 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualización de Datos en Tiempo Real</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client"></script>
-    <script src="https://cdn.jsdelivr.net/npm/stompjs"></script>
+    <title>Tabla de Sensores</title>
 </head>
 <body>
-<h1>Visualización de Datos en Tiempo Real</h1>
-<canvas id="chart" width="800" height="400"></canvas>
 
+<h1>Tabla de Sensores</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Registro</th>
+        <th>ID del Sensor</th>
+        <th>Fecha de Generación</th>
+        <th>Temperatura</th>
+        <th>Humedad</th>
+    </tr>
+    </thead>
+    <tbody id="sensorTableBody">
+    <tr th:each="data : ${sensorDataList}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.idDispositivo}"></td>
+        <td th:text="${data.fechaGeneracion}"></td>
+        <td th:text="${data.temperatura}"></td>
+        <td th:text="${data.humedad}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
-    // Configuración de WebSocket
-    const socket = new SockJS('/ws');
-    const stompClient = Stomp.over(socket);
-    stompClient.connect({}, () => {
-        stompClient.subscribe('/topic/datos-sensores', (data) => {
-            const sensorData = JSON.parse(data.body);
-            actualizarGrafico(sensorData);
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        console.log("1");
+        stompClient.connect({}, function (frame) {
+            console.log("2");
+            stompClient.subscribe('/topic/sensor-data', function (message) {
+                console.log("3");
+                // Manejar el mensaje recibido (actualizar la tabla)
+                var sensorData = JSON.parse(message.body);
+                console.log("Nuevo dato recibido: " + JSON.stringify(sensorData));
+                appendRowToTable(sensorData);
+            });
         });
+    }
+
+    function appendRowToTable(sensorData) {
+        var tableBody = document.getElementById("sensorTableBody");
+        var newRow = tableBody.insertRow(-1);
+
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+        var cell5 = newRow.insertCell(4);
+
+        cell1.innerHTML = sensorData.id;
+        cell2.innerHTML = sensorData.idDispositivo;
+        cell3.innerHTML = sensorData.fechaGeneracion;
+        cell4.innerHTML = sensorData.temperatura;
+        cell5.innerHTML = sensorData.humedad
+    }
+    $(document).ready(function () {
+        connect();
     });
-
-    // Configuración del gráfico
-    const ctx = document.getElementById('chart').getContext('2d');
-    const labels = [];
-    const datasets = [];
-
-    function actualizarGrafico(sensorData) {
-        labels.push(sensorData.fechaGeneracion);
-
-        // Obtener el conjunto de datos correspondiente al sensor
-        let dataset = datasets.find(ds => ds.id === sensorData.idDispositivo);
-
-        if (!dataset) {
-            dataset = {
-                id: sensorData.idDispositivo,
-                label: `Sensor ${sensorData.idDispositivo}`,
-                data: [],
-                borderColor: getRandomColor(),
-                fill: false
-            };
-            datasets.push(dataset);
-        }
-
-        dataset.data.push({ x: labels.length - 1, y: sensorData.temperatura });
-
-        // Actualizar el gráfico
-        const config = {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        type: 'linear',
-                        position: 'bottom'
-                    },
-                    y: {
-                        type: 'linear',
-                        position: 'left'
-                    }
-                }
-            }
-        };
-
-        new Chart(ctx, config);
-    }
-
-    // Función para generar colores aleatorios
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
 </script>
 </body>
 </html>
