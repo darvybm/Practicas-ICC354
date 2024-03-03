@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Datos en Tiempo Real</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs"></script>
+</head>
+<body>
+<h1>Visualización de Datos en Tiempo Real</h1>
+<canvas id="chart" width="800" height="400"></canvas>
+
+<script>
+    // Configuración de WebSocket
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+    stompClient.connect({}, () => {
+        stompClient.subscribe('/topic/datos-sensores', (data) => {
+            const sensorData = JSON.parse(data.body);
+            actualizarGrafico(sensorData);
+        });
+    });
+
+    // Configuración del gráfico
+    const ctx = document.getElementById('chart').getContext('2d');
+    const labels = [];
+    const datasets = [];
+
+    function actualizarGrafico(sensorData) {
+        labels.push(sensorData.fechaGeneracion);
+
+        // Obtener el conjunto de datos correspondiente al sensor
+        let dataset = datasets.find(ds => ds.id === sensorData.idDispositivo);
+
+        if (!dataset) {
+            dataset = {
+                id: sensorData.idDispositivo,
+                label: `Sensor ${sensorData.idDispositivo}`,
+                data: [],
+                borderColor: getRandomColor(),
+                fill: false
+            };
+            datasets.push(dataset);
+        }
+
+        dataset.data.push({ x: labels.length - 1, y: sensorData.temperatura });
+
+        // Actualizar el gráfico
+        const config = {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx, config);
+    }
+
+    // Función para generar colores aleatorios
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+</script>
+</body>
+</html>
