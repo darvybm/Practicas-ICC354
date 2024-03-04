@@ -206,7 +206,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="sensorTable" width="100%" cellspacing="0">
                                     <thead>
                                     <tr>
                                         <th>ID del Sensor</th>
@@ -223,7 +223,7 @@
                                         <th>Humedad (%)</th>
                                     </tr>
                                     </tfoot>
-                                    <tbody id="sensorTableBody">
+                                    <tbody id="">
                                     <tr th:each="data : ${sensorDataList}">
                                         <td th:text="${data.idDispositivo}"></td>
                                         <td th:text="${data.fechaGeneracion}"></td>
@@ -267,6 +267,8 @@
     var dateLabels = []; // Lista para almacenar etiquetas de fecha
     var humidityData = []; // Lista para almacenar datos de temperatura
 
+    var table;
+
     function connect() {
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
@@ -285,22 +287,22 @@
     }
 
     function appendRowToTable(sensorData) {
-        var tableBody = document.getElementById("sensorTableBody");
-        var newRow = tableBody.insertRow(-1);
 
-        var cell1 = newRow.insertCell(0);
-        var cell2 = newRow.insertCell(1);
-        var cell3 = newRow.insertCell(2);
-        var cell4 = newRow.insertCell(3);
+        var currentPage = table.page();
+        var pageSize = table.page.len();
 
-        cell1.innerHTML = sensorData.idDispositivo;
-        // cell2.innerHTML = formatFecha(sensorData.fechaGeneracion);
-        // cell3.innerHTML = formatTemperatura(sensorData.temperatura);
-        // cell4.innerHTML = formatHumedad(sensorData.humedad);
-        cell2.innerHTML = sensorData.fechaGeneracion;
-        cell3.innerHTML = sensorData.temperatura;
-        cell4.innerHTML = sensorData.humedad;
+        // Agregar una nueva fila
+        table.row.add([
+            sensorData.idDispositivo,
+            sensorData.fechaGeneracion,
+            sensorData.temperatura,
+            sensorData.humedad
+        ]).draw();
+
+        table.page(currentPage).draw(false);
+        table.page.len(pageSize).draw(false);
     }
+
 
     function updateChartData(sensorData) {
         temperatureData.push(sensorData.temperatura);
@@ -319,6 +321,7 @@
         myHumidityLineChart.update();
     }
     $(document).ready(function () {
+        table = $('#sensorTable').DataTable();
         connect();
     });
 
