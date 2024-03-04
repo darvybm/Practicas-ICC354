@@ -22,14 +22,14 @@ public class SensorClient {
         this.jmsTemplate = jmsTemplate;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 60000)
     public void sendSensorData()  {
         String data = generateRandomMessage(1L);
         System.out.println("Enviando Data: " + data);
         jmsTemplate.convertAndSend("notificacion_sensores", data);
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 60000)
     public void sendSensorData2()  {
         String data = generateRandomMessage(2L);
         System.out.println("Enviando Data: " + data);
