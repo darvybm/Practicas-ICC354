@@ -2,7 +2,7 @@ package com.pucmm.eict.jmssensordata.jms;
 
 import org.apache.activemq.broker.BrokerService;
 
-public class BrokerServer {
+public class Server {
 
     public static void startActiveMQBroker()  {
         BrokerService brokerService = new BrokerService();

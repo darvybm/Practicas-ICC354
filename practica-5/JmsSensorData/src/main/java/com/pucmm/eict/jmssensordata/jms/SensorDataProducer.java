@@ -15,10 +15,10 @@ import java.util.UUID;
 
 @Component
 @EnableScheduling
-public class SensorClient {
+public class SensorDataProducer {
     private final JmsTemplate jmsTemplate;
 
-    public SensorClient(JmsTemplate jmsTemplate) {
+    public SensorDataProducer(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
 

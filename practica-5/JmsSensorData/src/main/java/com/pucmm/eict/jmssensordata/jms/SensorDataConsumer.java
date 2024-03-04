@@ -1,6 +1,5 @@
 package com.pucmm.eict.jmssensordata.jms;
 
-import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pucmm.eict.jmssensordata.model.SensorData;
 import com.pucmm.eict.jmssensordata.service.SensorDataService;
@@ -10,7 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SensorServer {
+public class SensorDataConsumer {
 
     @Autowired
     private SensorDataService sensorDataService;
