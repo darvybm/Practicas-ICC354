@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - ${PUERTO_APP}:8080
+      - ${PUERTO_APP:-8080}:8080
     env_file:
       - .env
     depends_on:
@@ -22,7 +22,7 @@ services:
   db:
     image: mysql:8.0.23
     expose:
-      - ${PUERTO_DB}:3306
+      - ${PUERTO_DB:-3306}:3306
     env_file:
       - .env
     environment:
