@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  app_instance_1:
+    image: anthonybeato/p4-mockupapi:latest
+    container_name: app1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql_db
+
+#  app_instance_2:
+#    image: anthonybeato/p4-mockupapi:latest
+#    container_name: app2
+#    ports:
+#      - "8081:8080"
+#    depends_on:
+#      - mysql_db
+#
+#  app_instance_3:
+#    image: anthonybeato/p4-mockupapi:latest
+#    container_name: app3
+#    ports:
+#      - "8082:8080"
+#    depends_on:
+#      - mysql_db
+
+  mysql_db:
+    image: mysql:8.0.23
+    ports:
+      - "3307:3307"
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+#    volumes:
+#      - ${VOL_URL}
