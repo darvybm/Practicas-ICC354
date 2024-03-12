@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - ${PUERTO_APP:-8080}:8080
+      - ${PUERTO_APP}:8080
     env_file:
       - .env
     depends_on:
@@ -17,12 +17,12 @@ services:
     networks:
       - mockapi-red
     volumes:
-      - mockapi-volumen:/var/lib/web
+      - mockapi-volumen:/tmp/
 
   db:
     image: mysql:8.0.23
-    ports:
-      - ${PUERTO_DB:-3306}:3306
+    expose:
+      - ${PUERTO_DB}:3306
     env_file:
       - .env
     environment:
@@ -31,7 +31,7 @@ services:
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
-      - db-data:/var/lib/mysql
+      - ${VOL_URL}
     networks:
       - mockapi-red
 
@@ -53,4 +53,3 @@ networks:
 
 volumes:
   mockapi-volumen:
-  db-data:
