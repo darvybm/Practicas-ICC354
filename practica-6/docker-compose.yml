@@ -71,8 +71,6 @@ services:
       - "443:443"
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
     depends_on:
       - spring-app-1
       - spring-app-2
