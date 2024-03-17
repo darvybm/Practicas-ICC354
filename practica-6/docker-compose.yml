@@ -51,7 +51,7 @@ services:
     container_name: db-1
     restart: always
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: mysecretpassword
       MYSQL_DATABASE: mydatabase
@@ -61,6 +61,22 @@ services:
       - my-network
     volumes:
       - mysql-data:/var/lib/mysql
+
+  haproxy:
+    image: haproxy
+    container_name: haproxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - spring-app-1
+      - spring-app-2
+      - spring-app-3
+    networks:
+      - my-network
 
 networks:
   my-network:
