@@ -11,7 +11,7 @@ if [ ! -e "/etc/haproxy/haproxy.cfg.original" ]; then
 fi
 
 # Copiando el archivo de configuración de HAProxy.
-sudo cp /Practicas-ICC354/practica-6/haproxy.cfg /etc/haproxy/haproxy.cfg
+sudo cp Practicas-ICC354/practica-6/haproxy.cfg /etc/haproxy/haproxy.cfg
 
 # Instalando docker
 sudo apt install docker-compose
