@@ -1,23 +1,24 @@
 #!/bin/bash
+
 echo "Configuración básica de HAProxy"
 
-# Eliminando todas las aplicaciones Java.
+# Eliminar todas las aplicaciones Java.
 killall java
 
-# Creando una copia del archivo actual.
+# Crear una copia del archivo de configuración actual.
 if [ ! -e "/etc/haproxy/haproxy.cfg.original" ]; then
   echo "Creando archivo de backup"
   sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
 fi
 
-# Copiando el archivo de configuración de HAProxy.
+# Copiar el archivo de configuración de HAProxy.
 sudo cp Practicas-ICC354/practica-6/haproxy.cfg /etc/haproxy/haproxy.cfg
 
-# Instalando docker
-sudo apt install docker-compose
+# Instalar Docker
+sudo apt install -y docker-compose
 
-# Instalando certificados SSL
-sudo apt-get remove certbot
+# Instalar Certbot
+sudo apt-get remove -y certbot
 sudo apt-get update
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:certbot/certbot
