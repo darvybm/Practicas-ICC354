@@ -31,16 +31,12 @@ DOMAIN="p6.turnos.do"
 # Directorio donde se guardarán los archivos generados por Let's Encrypt
 LE_DIR="/etc/letsencrypt/live/$DOMAIN"
 
-# Directorio donde se guardará el certificado y la clave privada
-CERT_DIR="/etc/ssl/certs"
-
 # Comando para obtener el certificado SSL utilizando certbot de Let's Encrypt
 sudo certbot certonly --standalone --preferred-challenges http -d $DOMAIN
 
-# Copiar el certificado y la clave privada al directorio de certificados
-sudo mkdir -p $CERT_DIR
-sudo cp $LE_DIR/fullchain.pem $CERT_DIR/domain.pem
-sudo cp $LE_DIR/privkey.pem $CERT_DIR/domain.key
+# Copiar el certificado y la clave privada al directorio de certificados de HAProxy
+sudo cp $LE_DIR/fullchain.pem /etc/ssl/certs/domain.pem
+sudo cp $LE_DIR/privkey.pem /etc/ssl/private/domain.key
 
 # Reiniciar el contenedor de HAProxy para que tome los nuevos certificados
 sudo docker restart haproxy
