@@ -24,15 +24,27 @@ sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
 sudo apt-get install certbot
 
-sudo certbot certonly --standalone -d p6.turnos.do -v
+# Dominio para el que se generará el certificado SSL
+DOMAIN="p6.turnos.do"
 
-sudo mkdir -p /etc/haproxy/certs
-DOMAIN='p6.turnos.do'
-sudo -E bash -c 'cat /etc/letsencrypt/live/$DOMAIN/fullchain.pem /etc/letsencrypt/live/$DOMAIN/privkey.pem >` /etc/haproxy/certs/$DOMAIN.pem'
+# Directorio donde se guardarán los archivos generados por Let's Encrypt
+LE_DIR="/etc/letsencrypt"
 
-cat /etc/ssl/certs/*.pem > /etc/ssl/certs/ca.pem
+# Directorio donde se guardará el certificado y la clave privada
+CERT_DIR="/etc/ssl/certs"
 
-sudo chmod -R go-rwx /etc/haproxy/certs
+# Comando para obtener el certificado SSL utilizando certbot de Let's Encrypt
+certbot certonly --standalone --preferred-challenges http -d $DOMAIN
 
-# Reiniciando el servicio de HAProxy
-sudo service haproxy stop && sudo service haproxy start
+# Copiar el certificado y la clave privada al directorio de certificados
+cp $LE_DIR/live/$DOMAIN/fullchain.pem $CERT_DIR/domain.pem
+cp $LE_DIR/live/$DOMAIN/privkey.pem $CERT_DIR/domain.key
+
+# Cambiar los permisos de los archivos de certificado y clave privada
+chmod 644 $CERT_DIR/domain.pem
+chmod 600 $CERT_DIR/domain.key
+
+# Reiniciar el contenedor de HAProxy para que tome los nuevos certificados
+docker restart haproxy
+
+echo "Certificado SSL generado y configurado correctamente."
