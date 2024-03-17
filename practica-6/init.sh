@@ -29,6 +29,9 @@ sudo certbot certonly --standalone -d p6.turnos.do -v
 sudo mkdir -p /etc/haproxy/certs
 DOMAIN='p6.turnos.do'
 sudo -E bash -c 'cat /etc/letsencrypt/live/$DOMAIN/fullchain.pem /etc/letsencrypt/live/$DOMAIN/privkey.pem >` /etc/haproxy/certs/$DOMAIN.pem'
+
+cat /etc/ssl/certs/*.pem > /etc/ssl/certs/ca.pem
+
 sudo chmod -R go-rwx /etc/haproxy/certs
 
 # Reiniciando el servicio de HAProxy
