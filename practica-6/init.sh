@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 echo "Configuración básica de HAProxy"
 
 # Eliminando todas las aplicaciones Java.
@@ -19,32 +19,29 @@ sudo apt install docker-compose
 # Instalando certificados SSL
 sudo apt-get remove certbot
 sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository -y ppa:certbot/certbot
 sudo apt-get update
-sudo apt-get install certbot
+sudo apt-get install -y certbot
 
 # Dominio para el que se generará el certificado SSL
 DOMAIN="p6.turnos.do"
 
 # Directorio donde se guardarán los archivos generados por Let's Encrypt
-LE_DIR="/etc/letsencrypt"
+LE_DIR="/etc/letsencrypt/live/$DOMAIN"
 
 # Directorio donde se guardará el certificado y la clave privada
 CERT_DIR="/etc/ssl/certs"
 
 # Comando para obtener el certificado SSL utilizando certbot de Let's Encrypt
-certbot certonly --standalone --preferred-challenges http -d $DOMAIN
+sudo certbot certonly --standalone --preferred-challenges http -d $DOMAIN
 
 # Copiar el certificado y la clave privada al directorio de certificados
-cp $LE_DIR/live/$DOMAIN/fullchain.pem $CERT_DIR/domain.pem
-cp $LE_DIR/live/$DOMAIN/privkey.pem $CERT_DIR/domain.key
-
-# Cambiar los permisos de los archivos de certificado y clave privada
-chmod 644 $CERT_DIR/domain.pem
-chmod 600 $CERT_DIR/domain.key
+sudo mkdir -p $CERT_DIR
+sudo cp $LE_DIR/fullchain.pem $CERT_DIR/domain.pem
+sudo cp $LE_DIR/privkey.pem $CERT_DIR/domain.key
 
 # Reiniciar el contenedor de HAProxy para que tome los nuevos certificados
-docker restart haproxy
+sudo docker restart haproxy
 
 echo "Certificado SSL generado y configurado correctamente."
