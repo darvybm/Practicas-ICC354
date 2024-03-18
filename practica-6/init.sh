@@ -33,18 +33,18 @@ DOMAIN="p6.turnos.do"
 LE_DIR="/etc/letsencrypt/live/$DOMAIN"
 
 # Directorio donde se guardará el certificado y la clave privada
-CERT_DIR="/etc/haproxy/certs"
+CERT_DIR="/etc/ssl/certs"
 
 # Comando para obtener el certificado SSL utilizando certbot de Let's Encrypt
-sudo certbot certonly --standalone -d $DOMAIN -v
+sudo certbot certonly --standalone -d "$DOMAIN" -v
 
-sudo mkdir -p $CERT_DIR
-sudo -E bash -c "cat $LE_DIR/fullchain.pem $LE_DIR/privkey.pem >$CERT_DIR/$DOMAIN.pem"
+sudo mkdir -p "$CERT_DIR"
+cat "$LE_DIR/fullchain.pem" "$LE_DIR/privkey.pem" > "$CERT_DIR/$DOMAIN.pem"
 
-sudo chmod -R go-rwx $CERT_DIR
-
+sudo chmod -R go-rwx "$CERT_DIR"
 
 # Reiniciar el contenedor de HAProxy para que tome los nuevos certificados
-sudo service haproxy stop && sudo service haproxy start
+sudo service haproxy restart
 
 echo "Certificado SSL generado y configurado correctamente."
+
