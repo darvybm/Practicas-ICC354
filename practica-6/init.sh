@@ -36,7 +36,8 @@ LE_DIR="/etc/letsencrypt/live/$DOMAIN"
 CERT_DIR="/etc/ssl/certs"
 
 # Comando para obtener el certificado SSL utilizando certbot de Let's Encrypt
-sudo certbot certonly --standalone -d "$DOMAIN" -v
+#sudo certbot certonly --standalone -d "$DOMAIN" -v
+sudo certbot certonly --standalone --preferred-challenges http -d $DOMAIN
 
 sudo mkdir -p "$CERT_DIR"
 cat "$LE_DIR/fullchain.pem" "$LE_DIR/privkey.pem" > "$CERT_DIR/$DOMAIN.pem"
