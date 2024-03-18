@@ -27,7 +27,7 @@ sudo apt-get install certbot
 
 
 # Dominio para el que se generará el certificado SSL
-DOMAIN="p6.turnos.do"
+DOMAIN="pract6.turnos.do"
 
 # Directorio donde se guardarán los archivos generados por Let's Encrypt
 LE_DIR="/etc/letsencrypt/live/$DOMAIN"
