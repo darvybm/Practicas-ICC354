@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,20 +19,20 @@ import lombok.ToString;
 public class Reservation{
 
     @DynamoDBHashKey(attributeName = "id")
-    private Long id;
+    private String id;
 
-    @DynamoDBAttribute
+    @DynamoDBAttribute(attributeName = "correo")
     private String correo;
 
-    @DynamoDBAttribute
+    @DynamoDBAttribute(attributeName = "nombre")
     private String nombre;
 
-    @DynamoDBAttribute
+    @DynamoDBAttribute(attributeName = "idUsuario")
     private String idUsuario;
 
-    @DynamoDBAttribute
+    @DynamoDBAttribute(attributeName = "horario")
     private String horario;
 
-    @DynamoDBAttribute
+    @DynamoDBAttribute(attributeName = "laboratorio")
     private String laboratorio;
 }
