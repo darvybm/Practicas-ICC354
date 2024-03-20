@@ -1,0 +1,134 @@
+
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">PUCMM</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="reservationOptions">
+                <li (click)="getReservations()" class="nav-item"><a class="nav-link" aria-current="page">Reservas activas</a></li>
+                <!-- <li (click)="onOpenModal(null, 'filter')" class="nav-item"><a class="nav-link" >Reservas pasadas</a></li> -->
+                <li (click)="getReservationsPasts()" class="nav-item"><a class="nav-link" >Reservas pasadas</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Page content-->
+<div class="container" id="main-container">
+  <div class=" mt-5">
+    <div>
+      <h1 class="text-center">Reservas de Laboratorio - PUCMM</h1>
+      </div>
+        <button *ngIf="mostrarBotonAgregar" class="btn btn-primary" (click)="onOpenModal(null, 'add')" >Agregar reserva</button>
+        <button *ngIf="!mostrarBotonAgregar" class="btn btn-primary" (click)="onOpenModal(null, 'filter')" >Filtrar reservas</button>
+        <table class="table table-striped" style="width:100%">
+          <thead>
+              <tr>
+                  <th>ID Usuario</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Laboratorio</th>
+                  <th>Horario</th>
+              </tr>
+          </thead>
+          <tbody>
+            @for (reservation of reservations; track $index){
+              <tr>
+                <td>{{reservation.idUsuario}}</td>
+                <td>{{reservation.nombre}}</td>
+                <td>{{reservation.correo}}</td>
+                <td>{{reservation.laboratorio}}</td>
+                <td>{{ formatDate(reservation.horario)}}</td>
+              </tr>
+            }  @empty {
+              Lista vacia de reservaciones
+            }
+          </tbody>
+          <tfoot>
+              <tr>
+                <th>ID Usuario</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Laboratorio</th>
+                <th>Horario</th>
+              </tr>
+          </tfoot>
+        </table>
+  </div>
+</div>
+
+
+<!-- Modal agregar reserva -->
+<div class="modal fade" id="addReservationModal" tabindex="-1" aria-labelledby="addReservationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addReservationLabel">Agregar Reserva</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="onAddReservation(addForm)">
+          <div class="mb-3">
+            <label for="inputID" class="form-label">Matricula</label>
+            <input type="text" ngModel name="idUsuario" class="form-control" id="inputID" required>
+          </div>
+          <div class="mb-3">
+            <label for="inputNombre" class="form-label">Nombre</label>
+            <input type="text" ngModel name="nombre" class="form-control" id="inputNombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="inputCorreo" class="form-label">Correo</label>
+            <input type="text" ngModel name="correo" class="form-control" id="inputCorreo" required>
+          </div>
+          <label for="selectInput" class="form-label">Laboratorio</label>
+          <select class="form-select" ngModel name="laboratorio" id="selectInput" required>
+            <option selected>Seleccionar laboratorio</option>
+            <option value="Laboratorio A">Laboratorio A</option>
+            <option value="Laboratorio B">Laboratorio B</option>
+            <option value="Laboratorio C">Laboratorio C</option>
+            <option value="Laboratorio D">Laboratorio D</option>
+          </select>
+          <div class="mb-3">
+            <label for="inputNombre" class="form-label">Horario</label>
+            <input type="datetime-local" ngModel name="horario" class="form-control" id="inputHorario" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="add-reservations-form" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal filtrar reservas pasadas -->
+<div class="modal fade" id="filterReservationModal" tabindex="-1" aria-labelledby="filterReservationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="filterReservationLabel">Filtrar Reservas</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #filterForm="ngForm" (ngSubmit)="onSubmitFilter(filterForm)">
+          <div class="mb-3">
+            <label for="inputNombre" class="form-label">Fecha inicio</label>
+            <input type="datetime-local" ngModel name="fechaInicio" class="form-control" id="inputHorario" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="inputNombre" class="form-label">Fecha fin</label>
+            <input type="datetime-local" ngModel name="fechaFin" class="form-control" id="inputHorario" required>
+          </div>
+          
+
+          <div class="modal-footer">
+            <button type="button" id="add-reservations-form" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button [disabled]="filterForm.invalid" type="submit" class="btn btn-primary">Filtrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
