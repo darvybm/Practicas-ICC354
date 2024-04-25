@@ -7,7 +7,7 @@ RUN gradle build --no-daemon
 
 # Ejecucion
 FROM eclipse-temurin:17-jre-jammy
-EXPOSE 8080
+EXPOSE 8083
 WORKDIR /app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/application.jar
 ENTRYPOINT ["java", "-jar", "application.jar"]
