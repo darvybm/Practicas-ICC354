@@ -21,7 +21,7 @@ services:
 
   db:
     image: mysql:8.0.23
-    expose:
+    ports:
       - ${PUERTO_DB:-3306}:3306
     env_file:
       - .env
